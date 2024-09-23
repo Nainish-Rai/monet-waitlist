@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+
+const manrope = Manrope({ subsets: ["latin"] });
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,6 +14,12 @@ const geistSans = localFont({
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+const neueMontreal = localFont({
+  src: "./fonts/NeueMontreal.woff",
+  variable: "--font-neue-montreal",
   weight: "100 900",
 });
 
@@ -27,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${neueMontreal.variable} ${manrope.className}   antialiased`}
       >
         <Navbar />
         {children}

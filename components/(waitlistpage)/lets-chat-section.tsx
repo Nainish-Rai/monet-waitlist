@@ -18,19 +18,21 @@ function LetsChatSection({}) {
           Let&apos;s Chat
         </h2>
 
-        <p className="mt-4 text-gray-100/70 text-lg max-w-md">
-          When have constraints ever worked? Unleash the true potential of
-          rewards with Monet and create a loyalty experience like never before.
+        <p className="mt-4 text-gray-100/70 text-lg  max-w-md">
+          Struggling with loyalty program engagement? Let’s explore how Monet
+          can solve your pain points and transform your loyalty strategy.
         </p>
-        <Image
-          src="/coin.png"
-          width={500}
-          height={500}
-          alt="hero"
-          className="mt-10 backdrop-blur-[1px] rounded-full text-body-medium "
-        />
+        <div className=" mt-10   ">
+          <Image
+            src="/coin.png"
+            width={500}
+            height={500}
+            alt="hero"
+            className=" drop-shadow-golden-glow "
+          />
+        </div>
 
-        <div className="w-full mt-12 sm:w-1/2">
+        <div className="w-full mt-12  bg-transparent  sm:w-1/2">
           <Button
             variant={"primary"}
             className="mt-8 text-black px-8 sm:font-medium rounded-3xl "
@@ -57,7 +59,7 @@ function LetsChatSection({}) {
           <p className="text-lg font-thin">
             Not a brand ? Switch to our{" "}
             <Link
-              href="/waitlist"
+              href="/"
               className="underline text-yellow-500 text-lg font-thin"
             >
               Customer Page{" "}

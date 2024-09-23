@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      dropShadow: {
+        "golden-glow": "5px 5px 200px rgba(198, 154, 53, 1)",
+      },
       fontSize: {
         // Neue Montreal
         "h1-nm": ["64px", { lineHeight: "150%", fontWeight: "500" }], // Medium, 150%
