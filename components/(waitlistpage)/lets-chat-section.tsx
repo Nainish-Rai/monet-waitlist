@@ -39,8 +39,8 @@ function LetsChatSection({}) {
           </Button>
         </div>
         <div className="w-full mt-12  flex  gap-2 justify-center sm:w-1/2">
-          {socialLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
+          {socialLinks.map((link, index) => (
+            <Link key={index} href={link.href}>
               <div className="flex gap-5 lg:flex-row flex-col bg-white rounded-full w-fit p-3">
                 <Image
                   src={link.src}

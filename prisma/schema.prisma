@@ -1,0 +1,27 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL") // Use your MongoDB connection string here
+}
+
+model BrandContact {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  brandName    String
+  contactName  String
+  contactEmail String
+  contactPhone String?
+  brandWebsite String?
+  existingLoyalty String
+}
+
+model CustomerContact {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  contactEmail String
+  contactPhone String
+  fromWhere String?
+}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "../ui/button";
+import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
 
 function Hero({}) {
   return (
@@ -15,13 +15,7 @@ function Hero({}) {
             rewards with Monet and create a loyalty experience like never
             before.
           </p>
-          <Button
-            variant={"primary"}
-            className="mt-8 text-black rounded-3xl"
-            size={"lg"}
-          >
-            Join the waitlist
-          </Button>
+          <CustomerWaitlistDialog />
         </div>
         <div className="w-full flex justify-center items-center lg:w-1/2">
           <Image src="/hero.png" width={500} height={500} alt="hero" />
