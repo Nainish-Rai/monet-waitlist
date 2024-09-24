@@ -52,11 +52,11 @@ function CustomerCta({}) {
           ))}
         </div>
         <div className="mt-14">
-          <p className="text-lg font-thin">
+          <p className="text-sm lg:text-lg font-thin">
             Not a Consumer ? Switch to our{" "}
             <Link
               href="/"
-              className="underline text-yellow-500 text-lg font-thin"
+              className="underline text-yellow-500 text-sm lg:text-lg font-thin"
             >
               Brands Page{" "}
             </Link>

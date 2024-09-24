@@ -51,11 +51,11 @@ function LetsChatSection({}) {
           ))}
         </div>
         <div className="mt-8">
-          <p className="text-lg font-thin">
+          <p className="text-sm lg:text-lg font-thin">
             Not a brand ? Switch to our{" "}
             <Link
               href="/customer"
-              className="underline text-yellow-500 text-lg font-thin"
+              className="underline text-yellow-500 text-sm lg:text-lg font-thin"
             >
               Customer Page{" "}
             </Link>

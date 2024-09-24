@@ -103,7 +103,7 @@ export function BrandContactDialog() {
           Join Waitlist
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full overflow-scroll max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/20 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
+      <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/20 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
           <DialogTitle className=" text-2xl lg:text-5xl font-thin leading-tight ">
             Ready to Transform Loyalty Engagement?
