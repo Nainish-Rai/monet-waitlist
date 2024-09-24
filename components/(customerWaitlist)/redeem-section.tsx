@@ -7,7 +7,7 @@ function RedeemSection({}) {
       <div className="w-full max-w-7xl flex justify-center gap-8 flex-col mx-auto  ">
         <div className="w-full lg:mt-16 gap-8 flex flex-col lg:flex-row justify-center">
           <div className="w-full lg:w-1/2 flex flex-col lg:pl-8  justify-center ">
-            <h1 className=" font-medium lg:leading-[2.5] text-3xl lg:text-6xl text-left ">
+            <h1 className=" font-medium lg:leading-[1.1] text-3xl lg:text-6xl text-left ">
               Exchange, <br /> Redeem, Repeat.
             </h1>
             <p className=" text-gray-100/70 text-base lg:text-lg max-w-sm mt-2 lg:mt-6">
