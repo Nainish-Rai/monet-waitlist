@@ -30,7 +30,7 @@ const solutions: Solution[] = [
 
 export function SolutionsSection() {
   return (
-    <section className="w-full px-4 lg:px-0 bg-gradient-to-bl from-[#D6AF503D]/10 from-0% via-black to-black ">
+    <section className="w-full px-4 lg:px-0 bg-gradient-to-bl from-[#D6AF503D]/15 from-0% via-black to-black ">
       <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full">
         <h2 className="lg:self-center text-3xl lg:text-5xl font-medium text-white sm:text-4xl">
           Our Solutions

@@ -1,8 +1,15 @@
+"use client";
 import React from "react";
 import { MonetWorkLogo } from "./monet-work-logo";
 import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
 function Navbar({}) {
+  const activePathname = usePathname();
+
+  const isBrand = activePathname === "/";
+  const isCustomer = activePathname === "/customer";
+
   return (
     <nav className="w-[90%] lg:w-full bg-black/70 rounded-full p-0 lg:bg-transparent my-2 fixed z-50 mx-5 lg:px-0 top-0 ">
       <div className="w-full max-w-7xl flex items-center justify-between mx-auto  lg:py-4">
@@ -10,12 +17,36 @@ function Navbar({}) {
           <MonetWorkLogo className="w-16 lg:w-32 h-8" />
         </div>
         <div className="border p-2  bg-black/20 backdrop-blur rounded-full">
-          <Button className=" bg-transparent  text-xs lg:text-base hover:bg-transparent text-white rounded-3xl">
-            I&apos;m a customer
-          </Button>
-          <Button className=" rounded-3xl text-xs lg:text-base ">
-            I&apos;m an brand
-          </Button>
+          {!isCustomer ? (
+            <Button
+              onClick={() => (window.location.href = "/customer")}
+              className=" bg-transparent  text-xs lg:text-base hover:bg-transparent text-white rounded-3xl"
+            >
+              I&apos;m a customer
+            </Button>
+          ) : (
+            <Button
+              onClick={() => (window.location.href = "/customer")}
+              className=" rounded-3xl text-xs lg:text-base "
+            >
+              I&apos;m an customer
+            </Button>
+          )}
+          {!isBrand ? (
+            <Button
+              onClick={() => (window.location.href = "/")}
+              className=" bg-transparent  text-xs lg:text-base hover:bg-transparent text-white rounded-3xl"
+            >
+              I&apos;m a brand
+            </Button>
+          ) : (
+            <Button
+              onClick={() => (window.location.href = "/")}
+              className=" rounded-3xl text-xs lg:text-base "
+            >
+              I&apos;m an brand
+            </Button>
+          )}
         </div>
       </div>
     </nav>

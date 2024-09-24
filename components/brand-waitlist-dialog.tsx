@@ -100,15 +100,15 @@ export function BrandContactDialog() {
           className="mt-8 text-black rounded-3xl"
           size={"lg"}
         >
-          Add Brand Contact
+          Join Waitlist
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/20 flex p-12 sm:rounded-3xl">
+      <DialogContent className="w-full overflow-scroll max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/20 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
-          <DialogTitle className="text-5xl font-thin leading-tight ">
+          <DialogTitle className=" text-2xl lg:text-5xl font-thin leading-tight ">
             Ready to Transform Loyalty Engagement?
           </DialogTitle>
-          <p className="text-base pt-2 leading-normal text-gray-500 mb-4">
+          <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
             Be the first to offer seamless point conversions and engage
             customers like never before! We&apos;ll reach out soon to discuss
             how Monet can help elevate your brand&apso;s loyalty strategy.

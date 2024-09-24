@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BrandContactDialog } from "../brand-waitlist-dialog";
+import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
 
-function LetsChatSection({}) {
+function CustomerCta({}) {
   const socialLinks = [
     { href: "/waitlist", src: "/fb.svg", alt: "Facebook" },
 
@@ -12,17 +12,18 @@ function LetsChatSection({}) {
     { href: "/waitlist", src: "/linkedin.svg", alt: "Linkedin" },
   ];
   return (
-    <section className="w-full  bg-black pb-24 px-4 lg:px-0 ">
+    <section className="w-full  bg-black pb-6 px-4 lg:px-0 ">
       <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full items-center text-center">
-        <h2 className="self-center text-5xl font-medium text-white sm:text-6xl">
-          Let&apos;s Chat
+        <h2 className="self-center text-5xl font-medium text-white max-w-lg sm:text-6xl">
+          Crafted for Ultimate Rewards
         </h2>
 
-        <p className="mt-4 text-gray-100/70 text-lg  max-w-md">
-          Struggling with loyalty program engagement? Let’s explore how Monet
-          can solve your pain points and transform your loyalty strategy.
+        <p className="mt-6 text-gray-100/70 text-base  max-w-lg ">
+          Your points, your rules. Unlock a seamless experience where your
+          loyalty points work harder for you. Join now and enjoy flexible,
+          rewarding conversions!
         </p>
-        <div className=" mt-10   ">
+        <div className=" mt-20   ">
           <Image
             src="/coin.png"
             width={500}
@@ -32,10 +33,10 @@ function LetsChatSection({}) {
           />
         </div>
 
-        <div className="w-full mt-12  bg-transparent  sm:w-1/2">
-          <BrandContactDialog />
+        <div className="w-full mt-6  bg-transparent  sm:w-1/2">
+          <CustomerWaitlistDialog />
         </div>
-        <div className="w-full mt-12  flex  gap-2 justify-center sm:w-1/2">
+        <div className="w-full mt-24  flex  gap-2 justify-center sm:w-1/2">
           {socialLinks.map((link, index) => (
             <Link key={index} href={link.href}>
               <div className="flex gap-5 lg:flex-row flex-col bg-white rounded-full w-fit p-3">
@@ -50,14 +51,14 @@ function LetsChatSection({}) {
             </Link>
           ))}
         </div>
-        <div className="mt-8">
+        <div className="mt-14">
           <p className="text-lg font-thin">
-            Not a brand ? Switch to our{" "}
+            Not a Consumer ? Switch to our{" "}
             <Link
-              href="/customer"
+              href="/"
               className="underline text-yellow-500 text-lg font-thin"
             >
-              Customer Page{" "}
+              Brands Page{" "}
             </Link>
           </p>
         </div>
@@ -66,4 +67,4 @@ function LetsChatSection({}) {
   );
 }
 
-export default LetsChatSection;
+export default CustomerCta;

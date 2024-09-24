@@ -87,12 +87,12 @@ export function CustomerWaitlistDialog() {
           Join the waitlist
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/10 flex p-12 sm:rounded-3xl">
+      <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/10 flex flex-col lg:flex-row p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
-          <DialogTitle className="text-5xl font-normal leading-tight ">
+          <DialogTitle className="text-xl lg:text-5xl font-normal leading-tight ">
             Be the First to Unlock Ultimate Rewards
           </DialogTitle>
-          <p className="text-base pt-2 leading-normal  text-gray-400 mb-4">
+          <p className=" text-xs lg:text-base pt-2 leading-normal  text-gray-400 mb-4">
             Join our exclusive waitlist and get early access to seamless point
             conversions, exciting perks, and more. Don&apos;t miss out on the
             next wave of loyalty innovation!

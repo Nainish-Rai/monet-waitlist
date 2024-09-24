@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       dropShadow: {
         "golden-glow": "5px 5px 200px rgba(198, 154, 53, 1)",
+        "golden-glow-sm": "100px 5px 100px rgba(198, 154, 53, 0.2)",
       },
       fontSize: {
         // Neue Montreal
