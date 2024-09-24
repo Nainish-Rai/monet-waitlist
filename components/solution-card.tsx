@@ -22,10 +22,10 @@ export default function SolutionCard({
           height={60}
           className="object-contain"
         />
-        <h3 className="mt-12 text-lg lg:text-3xl font-medium text-white sm:mt-10">
+        <h3 className="mt-12 text-lg lg:text-2xl font-medium text-white sm:mt-10">
           {title}
         </h3>
-        <p className="mt-2 text-base lg:text-base leading-6 text-zinc-400">
+        <p className="mt-2 text-base lg:text-sm leading-6 text-zinc-400">
           {description}
         </p>
       </div>

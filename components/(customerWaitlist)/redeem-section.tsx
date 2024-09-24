@@ -1,21 +1,39 @@
+"use client";
+import { slideIn } from "@/lib/anims";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
 
 function RedeemSection({}) {
   return (
-    <div className="w-full  pt-24  px-4 lg:px-0  bg-black mx-auto lg:h-screen">
+    <div className="w-full  pt-24  px-4 lg:px-0 overflow-hidden bg-black mx-auto lg:h-screen">
       <div className="w-full max-w-7xl flex justify-center gap-8 flex-col mx-auto  ">
         <div className="w-full lg:mt-16 gap-8 flex flex-col lg:flex-row justify-center">
           <div className="w-full lg:w-1/2 flex flex-col lg:pl-8  justify-center ">
-            <h1 className=" font-medium lg:leading-[1.1] text-3xl lg:text-6xl text-left ">
+            <motion.h1
+              initial="hidden"
+              whileInView="show"
+              variants={slideIn("left", "spring", 0, 1.2)}
+              className=" font-medium lg:leading-[1.1] text-3xl lg:text-6xl text-left "
+            >
               Exchange, <br /> Redeem, Repeat.
-            </h1>
-            <p className=" text-gray-100/70 text-base lg:text-lg max-w-sm mt-2 lg:mt-6">
+            </motion.h1>
+            <motion.p
+              initial="hidden"
+              whileInView="show"
+              variants={slideIn("left", "spring", 0, 1)}
+              className=" text-gray-100/70 text-base lg:text-lg max-w-sm mt-2 lg:mt-6"
+            >
               Earn points from your favorite brands, effortlessly exchange them,
               and redeem wherever you shop!
-            </p>
+            </motion.p>
           </div>
-          <div className="w-full lg:w-1/2  p-8 flex justify-center">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            variants={slideIn("right", "spring", 0.1, 1.2)}
+            className="w-full lg:w-1/2  p-8 flex justify-center"
+          >
             <Image
               src="/consumer2.png"
               width={500}
@@ -23,7 +41,7 @@ function RedeemSection({}) {
               alt="why-us"
               className="w-full drop-shadow-golden-glow-sm"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

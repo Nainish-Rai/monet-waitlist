@@ -21,6 +21,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { motion } from "framer-motion";
+import { textVariant } from "@/lib/anims";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -95,15 +97,21 @@ export function BrandContactDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"primary"}
-          className="mt-8 text-black rounded-3xl"
-          size={"lg"}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          variants={textVariant(0.3)}
         >
-          Join Waitlist
-        </Button>
+          <Button
+            variant={"primary"}
+            className="mt-8 text-black rounded-3xl"
+            size={"lg"}
+          >
+            Join Waitlist
+          </Button>
+        </motion.div>
       </DialogTrigger>
-      <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/20 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
+      <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
           <DialogTitle className=" text-2xl lg:text-5xl font-thin leading-tight ">
             Ready to Transform Loyalty Engagement?

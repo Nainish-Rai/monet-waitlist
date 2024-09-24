@@ -21,6 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { textVariant } from "@/lib/anims";
+import { motion } from "framer-motion";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -79,15 +81,21 @@ export function CustomerWaitlistDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"primary"}
-          className="mt-8 text-black rounded-3xl"
-          size={"lg"}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          variants={textVariant(0.9)}
         >
-          Join the waitlist
-        </Button>
+          <Button
+            variant={"primary"}
+            className="mt-8 text-black rounded-3xl"
+            size={"lg"}
+          >
+            Join the waitlist
+          </Button>
+        </motion.div>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/10 flex flex-col lg:flex-row p-12 sm:rounded-3xl">
+      <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/40 flex flex-col lg:flex-row p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
           <DialogTitle className="text-xl lg:text-5xl font-normal leading-tight ">
             Be the First to Unlock Ultimate Rewards

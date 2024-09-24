@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
+import { motion } from "framer-motion";
+import { textVariant } from "@/lib/anims";
 
 function CustomerCta({}) {
   const socialLinks = [
@@ -14,16 +17,32 @@ function CustomerCta({}) {
   return (
     <section className="w-full  bg-black pb-6 px-4 lg:px-0 ">
       <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full items-center text-center">
-        <h2 className="self-center text-5xl font-medium text-white max-w-lg sm:text-6xl">
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="self-center text-5xl font-medium text-white max-w-lg sm:text-6xl"
+        >
           Crafted for Ultimate Rewards
-        </h2>
+        </motion.h2>
 
-        <p className="mt-6 text-gray-100/70 text-base  max-w-lg ">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mt-6 text-gray-100/70 text-base  max-w-lg "
+        >
           Your points, your rules. Unlock a seamless experience where your
           loyalty points work harder for you. Join now and enjoy flexible,
           rewarding conversions!
-        </p>
-        <div className=" mt-20   ">
+        </motion.p>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          variants={textVariant(0.5)}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className=" mt-20   "
+        >
           <Image
             src="/coin.png"
             width={500}
@@ -31,7 +50,7 @@ function CustomerCta({}) {
             alt="hero"
             className=" drop-shadow-golden-glow "
           />
-        </div>
+        </motion.div>
 
         <div className="w-full mt-6  bg-transparent  sm:w-1/2">
           <CustomerWaitlistDialog />
