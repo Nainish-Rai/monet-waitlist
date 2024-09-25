@@ -35,7 +35,7 @@ function Hero({}) {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="w-full flex justify-center items-center lg:w-1/2"
         >
-          <Image src="/hero.png" width={500} height={500} alt="hero" />
+          <Image src="/hero.svg" width={2000} height={2000} alt="hero" />
         </motion.div>
       </div>
     </div>

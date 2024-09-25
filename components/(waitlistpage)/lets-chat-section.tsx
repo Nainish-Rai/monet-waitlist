@@ -44,10 +44,10 @@ function LetsChatSection({}) {
         >
           <Image
             src="/coin.png"
-            width={500}
-            height={500}
+            width={1200}
+            height={1200}
             alt="hero"
-            className=" drop-shadow-golden-glow "
+            className=" max-w-lg drop-shadow-golden-glow "
           />
         </motion.div>
 

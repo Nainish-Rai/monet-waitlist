@@ -30,16 +30,16 @@ function CustomerHero({}) {
           {" "}
           <Image
             src="/consumerHeroGradient.png"
-            width={800}
-            height={800}
+            width={1200}
+            height={1200}
             alt="hero"
             className="w-full"
           />
         </motion.div>
         <Image
-          src="/consumerHero.png"
-          width={800}
-          height={800}
+          src="/customer-hero.svg"
+          width={2200}
+          height={2200}
           alt="hero"
           className="w-full lg:w-[70%] lg:hidden  mt-5 drop-shadow-golden-glow"
         />

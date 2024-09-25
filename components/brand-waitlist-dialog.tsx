@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Realistic from "react-canvas-confetti/dist/presets/realistic";
 import {
   Select,
   SelectTrigger,
@@ -48,6 +49,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function BrandContactDialog() {
   const [open, setOpen] = useState(false);
+  const [confetti, setConfetti] = useState(false);
   const {
     register,
     handleSubmit,
@@ -83,6 +85,7 @@ export function BrandContactDialog() {
 
       if (response.ok) {
         alert("Brand contact saved successfully!");
+        setConfetti(true);
         setOpen(false);
         reset();
       } else {
@@ -100,7 +103,7 @@ export function BrandContactDialog() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          variants={textVariant(0.3)}
+          variants={textVariant(0.2)}
         >
           <Button
             variant={"primary"}
@@ -112,6 +115,7 @@ export function BrandContactDialog() {
         </motion.div>
       </DialogTrigger>
       <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
+        {confetti && <Realistic autorun={{ speed: 0.5 }} />}
         <DialogHeader className="flex flex-col max-w-lg">
           <DialogTitle className=" text-2xl lg:text-5xl font-thin leading-tight ">
             Ready to Transform Loyalty Engagement?

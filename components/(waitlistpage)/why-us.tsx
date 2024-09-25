@@ -34,8 +34,8 @@ function WhyUs({}) {
           >
             <Image
               src="/why-us.png"
-              width={500}
-              height={500}
+              width={1200}
+              height={1200}
               alt="why-us"
               className="w-full"
             />
