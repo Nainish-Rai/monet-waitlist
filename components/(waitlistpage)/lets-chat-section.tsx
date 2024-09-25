@@ -47,7 +47,7 @@ function LetsChatSection({}) {
             width={1200}
             height={1200}
             alt="hero"
-            className=" max-w-lg drop-shadow-golden-glow "
+            className=" max-w-xs lg:max-w-lg drop-shadow-golden-glow "
           />
         </motion.div>
 

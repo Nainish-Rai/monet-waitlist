@@ -37,9 +37,9 @@ function CustomerHero({}) {
           />
         </motion.div>
         <Image
-          src="/customer-hero.svg"
-          width={2200}
-          height={2200}
+          src="/consumerHero.png"
+          width={1200}
+          height={1200}
           alt="hero"
           className="w-full lg:w-[70%] lg:hidden  mt-5 drop-shadow-golden-glow"
         />
