@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
-import { ArrowRight, ArrowUpRightIcon, PartyPopper } from "lucide-react";
+import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 
 // Define the schema using zod
@@ -270,7 +270,7 @@ export function BrandContactDialog() {
   );
 }
 
-export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
+export const ConfirmationForm = ({}: { onClose: () => void }) => (
   <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
     <div className="w-full lg:max-w-2xl lg:h-96">
@@ -287,7 +287,7 @@ export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
     </h1>
     <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
       Thanks for joining our waitlist! Get ready to transform customer
-      engagement with seamless point integration and analytics. We'll be in
+      engagement with seamless point integration and analytics. We&apos;ll be in
       touch soon to schedule your demo!
     </p>
 

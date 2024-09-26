@@ -86,22 +86,22 @@ export function CustomerWaitlistDialog() {
     setIsSubmitted(false);
   };
 
-  const sendEmail = async (data: FormData) => {
-    try {
-      const response = await fetch("/api/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+  // const sendEmail = async (data: FormData) => {
+  //   try {
+  //     const response = await fetch("/api/email", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     });
 
-      if (response.ok) {
-        alert("Email sent successfully");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
+  //     if (response.ok) {
+  //       alert("Email sent successfully");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     alert("An error occurred. Please try again.");
+  //   }
+  // };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
