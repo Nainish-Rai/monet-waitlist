@@ -258,6 +258,7 @@ export function BrandContactDialog() {
             </div>
             <Button
               type="submit"
+              // onClick={() => setIsSubmitted(true)}
               className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
             >
               Submit
@@ -272,17 +273,19 @@ export function BrandContactDialog() {
 export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
   <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
-    <div className="w-full max-w-2xl h-96">
+    <div className="w-full lg:max-w-2xl lg:h-96">
       <Image
         src={"congrats.svg"}
         alt="brand logo"
         width={800}
-        className="w-full   animate-pulse  "
+        className="w-full    animate-pulse  "
         height={800}
       />
     </div>
-    <h1 className="text-5xl z-10 -mt-40  font-medium ">Congratulations!</h1>
-    <p className="text-base  opacity-80 w-full max-w-md mt-3">
+    <h1 className="text-3xl lg:text-5xl z-10 mt-4 lg:-mt-40  font-medium ">
+      Congratulations!
+    </h1>
+    <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
       Thanks for joining our waitlist! Get ready to transform customer
       engagement with seamless point integration and analytics. We'll be in
       touch soon to schedule your demo!
