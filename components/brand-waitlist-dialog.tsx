@@ -24,7 +24,8 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
-import { PartyPopper } from "lucide-react";
+import { ArrowRight, ArrowUpRightIcon, PartyPopper } from "lucide-react";
+import Image from "next/image";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -116,25 +117,30 @@ export function BrandContactDialog() {
         >
           <Button
             variant={"primary"}
-            className="mt-8 px-6 text-base text-black rounded-3xl"
+            className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
             size={"lg"}
           >
             Join Waitlist
+            <ArrowUpRightIcon
+              height={20}
+              width={20}
+              className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
+            />
           </Button>
         </motion.div>
       </DialogTrigger>
-      <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
+      <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40  flex lg:flex-row flex-col p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
           <DialogTitle className=" text-2xl lg:text-5xl font-light leading-tight ">
-            {isSubmitted
-              ? "Thank you for joining!"
-              : " Ready to Transform Loyalty Engagement?"}
+            {isSubmitted ? "" : " Ready to Transform Loyalty Engagement?"}
           </DialogTitle>
-          <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
-            Be the first to offer seamless point conversions and engage
-            customers like never before! We&apos;ll reach out soon to discuss
-            how Monet can help elevate your brand&apso;s loyalty strategy.
-          </p>
+          {!isSubmitted && (
+            <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
+              Be the first to offer seamless point conversions and engage
+              customers like never before! We&apos;ll reach out soon to discuss
+              how Monet can help elevate your brand&apso;s loyalty strategy.
+            </p>
+          )}
           <button
             onClick={() => setOpen(false)}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
@@ -251,8 +257,7 @@ export function BrandContactDialog() {
               )}
             </div>
             <Button
-              // type="submit"
-              onClick={() => setIsSubmitted(true)}
+              type="submit"
               className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
             >
               Submit
@@ -265,15 +270,24 @@ export function BrandContactDialog() {
 }
 
 export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
-  <div className="text-center space-y-4">
+  <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
-    <PartyPopper className="w-16 h-16 mx-auto text-green-500 animate-bounce" />
-    <h2 className="text-2xl font-bold text-green-600">Thank You!</h2>
-    <p className="text-gray-600">
-      Your message has been successfully sent. We&apos;ll get back to you soon!
+    <div className="w-full max-w-2xl h-96">
+      <Image
+        src={"congrats.svg"}
+        alt="brand logo"
+        width={800}
+        className="w-full   animate-pulse  "
+        height={800}
+      />
+    </div>
+    <h1 className="text-5xl z-10 -mt-40  font-medium ">Congratulations!</h1>
+    <p className="text-base  opacity-80 w-full max-w-md mt-3">
+      Thanks for joining our waitlist! Get ready to transform customer
+      engagement with seamless point integration and analytics. We'll be in
+      touch soon to schedule your demo!
     </p>
-    <Button onClick={onClose} className="w-full">
-      Close
-    </Button>
+
+    {/* <Button onClick={onClose}>Close</Button> */}
   </div>
 );

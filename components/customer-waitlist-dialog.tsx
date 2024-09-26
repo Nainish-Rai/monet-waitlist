@@ -23,8 +23,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { textVariant } from "@/lib/anims";
 import { motion } from "framer-motion";
-import Realistic from "react-canvas-confetti/dist/presets/realistic";
-import { PartyPopper } from "lucide-react";
+import { ArrowUpRightIcon } from "lucide-react";
+import { ConfirmationForm } from "./brand-waitlist-dialog";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -113,10 +113,15 @@ export function CustomerWaitlistDialog() {
         >
           <Button
             variant={"primary"}
-            className="mt-8 text-black text-base px-5 rounded-3xl"
+            className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
             size={"lg"}
           >
-            Join the waitlist
+            Join Waitlist
+            <ArrowUpRightIcon
+              height={20}
+              width={20}
+              className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
+            />
           </Button>
         </motion.div>
       </DialogTrigger>
@@ -228,17 +233,3 @@ export function CustomerWaitlistDialog() {
     </Dialog>
   );
 }
-
-export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
-  <div className="text-center space-y-4">
-    <Realistic autorun={{ speed: 0.001 }} />
-    <PartyPopper className="w-16 h-16 mx-auto text-green-500 animate-bounce" />
-    <h2 className="text-2xl font-bold text-green-600">Thank You!</h2>
-    <p className="text-gray-600">
-      Your message has been successfully sent. We&apos;ll get back to you soon!
-    </p>
-    <Button onClick={onClose} className="w-full">
-      Close
-    </Button>
-  </div>
-);

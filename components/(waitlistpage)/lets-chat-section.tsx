@@ -15,7 +15,7 @@ function LetsChatSection({}) {
     { href: "/waitlist", src: "/linkedin.svg", alt: "Linkedin" },
   ];
   return (
-    <section className="w-full mb-0 lg:mt-24  bg-black lg:pb-12 pb-8 px-4 lg:px-0 ">
+    <section className="w-full mb-0 lg:mt-24  bg-black lg:pb-8 pb-8 px-4 lg:px-0 ">
       <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full items-center text-center">
         <motion.h2
           initial={{ opacity: 0 }}
@@ -54,7 +54,7 @@ function LetsChatSection({}) {
         <div className="w-full mt-12  bg-transparent  sm:w-1/2">
           <BrandContactDialog />
         </div>
-        <div className="w-full mt-12  flex  gap-2 justify-center sm:w-1/2">
+        <div className="w-full mt-24  flex  gap-2 justify-center sm:w-1/2">
           {socialLinks.map((link, index) => (
             <Link key={index} href={link.href}>
               <div className="flex gap-5 lg:flex-row flex-col bg-white rounded-full w-fit p-3">
