@@ -21,7 +21,7 @@ function CustomerCta({}) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="self-center text-5xl font-medium text-white max-w-lg sm:text-6xl"
+          className="self-center text-4xl font-medium text-white max-w-lg sm:text-6xl"
         >
           Crafted for Ultimate Rewards
         </motion.h2>
@@ -29,7 +29,7 @@ function CustomerCta({}) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mt-6 text-gray-100/70 text-base  max-w-lg "
+          className="mt-6 text-gray-100/70 text-base lg:text-lg  max-w-xl "
         >
           Your points, your rules. Unlock a seamless experience where your
           loyalty points work harder for you. Join now and enjoy flexible,
@@ -43,11 +43,11 @@ function CustomerCta({}) {
           className=" mt-20   "
         >
           <Image
-            src="/coin.png"
+            src="/coin.svg"
             width={500}
             height={500}
             alt="hero"
-            className=" drop-shadow-golden-glow "
+            className=" drop-shadow-golden-glow-cta-mobile lg:drop-shadow-golden-glow "
           />
         </motion.div>
         <div className="w-full mt-6  bg-transparent  sm:w-1/2">

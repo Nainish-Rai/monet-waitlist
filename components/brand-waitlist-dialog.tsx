@@ -112,11 +112,11 @@ export function BrandContactDialog() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          variants={textVariant(0.2)}
+          variants={textVariant(0.3)}
         >
           <Button
             variant={"primary"}
-            className="mt-8 text-black rounded-3xl"
+            className="mt-8 px-6 text-base text-black rounded-3xl"
             size={"lg"}
           >
             Join Waitlist

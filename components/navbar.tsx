@@ -32,7 +32,7 @@ function Navbar({}) {
               onClick={() => (window.location.href = "/customer")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m an customer
+              I&apos;m a customer
             </Button>
           )}
           {!isBrand ? (
@@ -47,7 +47,7 @@ function Navbar({}) {
               onClick={() => (window.location.href = "/")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m an brand
+              I&apos;m a brand
             </Button>
           )}
         </div>

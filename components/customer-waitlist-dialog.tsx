@@ -23,6 +23,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { textVariant } from "@/lib/anims";
 import { motion } from "framer-motion";
+import Realistic from "react-canvas-confetti/dist/presets/realistic";
+import { PartyPopper } from "lucide-react";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -46,6 +48,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function CustomerWaitlistDialog() {
   const [open, setOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -57,25 +60,30 @@ export function CustomerWaitlistDialog() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      sendEmail(data);
-      // const response = await fetch("/api/waitlist/customer", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(data),
-      // });
+      const response = await fetch("/api/waitlist/customer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-      // if (response.ok) {
-      //   alert("Thank you for joining our waitlist!");
-
-      //   // setOpen(false);
-      //   reset();
-      // } else {
-      //   alert("An error occurred. Please try again.");
-      // }
+      if (response.ok) {
+        // alert("Thank you for joining our waitlist!");
+        setIsSubmitted(true);
+        // sendEmail(data);
+        // setOpen(false);
+        reset();
+      } else {
+        alert("An error occurred. Please try again.");
+      }
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setIsSubmitted(false);
   };
 
   const sendEmail = async (data: FormData) => {
@@ -105,7 +113,7 @@ export function CustomerWaitlistDialog() {
         >
           <Button
             variant={"primary"}
-            className="mt-8 text-black rounded-3xl"
+            className="mt-8 text-black text-base px-5 rounded-3xl"
             size={"lg"}
           >
             Join the waitlist
@@ -130,86 +138,107 @@ export function CustomerWaitlistDialog() {
           </button>
         </DialogHeader>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 max-w-lg w-full"
-        >
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-right">
-              Name*
-            </Label>
-            <Input id="name" placeholder="Nainish" {...register("name")} />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactPhone" className="text-right">
-              Phone No*
-            </Label>
-            <Input
-              id="contactPhone"
-              placeholder="Enter phone no."
-              {...register("contactPhone")}
-            />
-            {errors.contactPhone && (
-              <p className="text-sm text-red-500">
-                {errors.contactPhone.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactEmail" className="text-right">
-              E-mail ID*
-            </Label>
-            <Input
-              id="contactEmail"
-              placeholder="Enter email ID"
-              {...register("contactEmail")}
-            />
-            {errors.contactEmail && (
-              <p className="text-sm text-red-500">
-                {errors.contactEmail.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="fromWhere" className="text-right">
-              How did you hear about us?*
-            </Label>
-            <Select
-              onValueChange={(value) =>
-                reset({
-                  fromWhere: value as
-                    | "Social Media"
-                    | "Advertisement"
-                    | "Friend"
-                    | "Other",
-                })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Social Media">Social Media</SelectItem>
-                <SelectItem value="Friend">Friend</SelectItem>
-                <SelectItem value="Advertisement">Advertisement</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.fromWhere && (
-              <p className="text-sm text-red-500">{errors.fromWhere.message}</p>
-            )}
-          </div>
-          <Button
-            type="submit"
-            className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+        {isSubmitted ? (
+          <ConfirmationForm onClose={handleClose} />
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 max-w-lg w-full"
           >
-            Submit
-          </Button>
-        </form>
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-right">
+                Name*
+              </Label>
+              <Input id="name" placeholder="Nainish" {...register("name")} />
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactPhone" className="text-right">
+                Phone No*
+              </Label>
+              <Input
+                id="contactPhone"
+                placeholder="Enter phone no."
+                {...register("contactPhone")}
+              />
+              {errors.contactPhone && (
+                <p className="text-sm text-red-500">
+                  {errors.contactPhone.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactEmail" className="text-right">
+                E-mail ID*
+              </Label>
+              <Input
+                id="contactEmail"
+                placeholder="Enter email ID"
+                {...register("contactEmail")}
+              />
+              {errors.contactEmail && (
+                <p className="text-sm text-red-500">
+                  {errors.contactEmail.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="fromWhere" className="text-right">
+                How did you hear about us?*
+              </Label>
+              <Select
+                onValueChange={(value) =>
+                  reset({
+                    fromWhere: value as
+                      | "Social Media"
+                      | "Advertisement"
+                      | "Friend"
+                      | "Other",
+                  })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Social Media">Social Media</SelectItem>
+                  <SelectItem value="Friend">Friend</SelectItem>
+                  <SelectItem value="Advertisement">Advertisement</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.fromWhere && (
+                <p className="text-sm text-red-500">
+                  {errors.fromWhere.message}
+                </p>
+              )}
+            </div>
+            <Button
+              // type="submit"
+              onClick={() => setIsSubmitted(true)}
+              className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+            >
+              Submit
+            </Button>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );
 }
+
+export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
+  <div className="text-center space-y-4">
+    <Realistic autorun={{ speed: 0.001 }} />
+    <PartyPopper className="w-16 h-16 mx-auto text-green-500 animate-bounce" />
+    <h2 className="text-2xl font-bold text-green-600">Thank You!</h2>
+    <p className="text-gray-600">
+      Your message has been successfully sent. We&apos;ll get back to you soon!
+    </p>
+    <Button onClick={onClose} className="w-full">
+      Close
+    </Button>
+  </div>
+);
