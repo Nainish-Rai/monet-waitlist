@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
+import { PartyPopper } from "lucide-react";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -49,7 +50,8 @@ type FormData = z.infer<typeof formSchema>;
 
 export function BrandContactDialog() {
   const [open, setOpen] = useState(false);
-  const [confetti, setConfetti] = useState(false);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -76,6 +78,7 @@ export function BrandContactDialog() {
       brandWebsite,
       existingLoyalty,
     });
+
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -84,9 +87,10 @@ export function BrandContactDialog() {
       });
 
       if (response.ok) {
-        alert("Brand contact saved successfully!");
-        setConfetti(true);
-        setOpen(false);
+        // alert("Brand contact saved successfully!");
+        setIsSubmitted(true);
+
+        // setOpen(false);
         reset();
       } else {
         alert("An error occurred. Please try again.");
@@ -95,6 +99,11 @@ export function BrandContactDialog() {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setIsSubmitted(false);
   };
 
   return (
@@ -115,10 +124,11 @@ export function BrandContactDialog() {
         </motion.div>
       </DialogTrigger>
       <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40 flex lg:flex-row flex-col p-12 sm:rounded-3xl">
-        {confetti && <Realistic autorun={{ speed: 0.5 }} />}
         <DialogHeader className="flex flex-col max-w-lg">
-          <DialogTitle className=" text-2xl lg:text-5xl font-thin leading-tight ">
-            Ready to Transform Loyalty Engagement?
+          <DialogTitle className=" text-2xl lg:text-5xl font-light leading-tight ">
+            {isSubmitted
+              ? "Thank you for joining!"
+              : " Ready to Transform Loyalty Engagement?"}
           </DialogTitle>
           <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
             Be the first to offer seamless point conversions and engage
@@ -133,116 +143,137 @@ export function BrandContactDialog() {
           </button>
         </DialogHeader>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 max-w-lg w-full"
-        >
-          <div className="space-y-2">
-            <Label htmlFor="brandName" className="text-right">
-              Brand Name*
-            </Label>
-            <Input
-              id="brandName"
-              placeholder="Brand Name"
-              {...register("brandName")}
-            />
-            {errors.brandName && (
-              <p className="text-sm text-red-500">{errors.brandName.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactName" className="text-right">
-              Contact Person’s Name*
-            </Label>
-            <Input
-              id="contactName"
-              placeholder="Contact Name"
-              {...register("contactName")}
-            />
-            {errors.contactName && (
-              <p className="text-sm text-red-500">
-                {errors.contactName.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactEmail" className="text-right">
-              Contact Person’s E-mail ID*
-            </Label>
-            <Input
-              id="contactEmail"
-              placeholder="Contact Email"
-              {...register("contactEmail")}
-            />
-            {errors.contactEmail && (
-              <p className="text-sm text-red-500">
-                {errors.contactEmail.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="contactPhone" className="text-right">
-              Contact Person’s Phone no.
-            </Label>
-            <Input
-              id="contactPhone"
-              placeholder="Contact Phone"
-              {...register("contactPhone")}
-            />
-            {errors.contactPhone && (
-              <p className="text-sm text-red-500">
-                {errors.contactPhone.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="brandWebsite" className="text-right">
-              Brand Website URL
-            </Label>
-            <Input
-              id="brandWebsite"
-              placeholder="Brand Website"
-              {...register("brandWebsite")}
-            />
-            {errors.brandWebsite && (
-              <p className="text-sm text-red-500">
-                {errors.brandWebsite.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="existingLoyalty" className="text-right">
-              Do have an existing loyalty solution?*
-            </Label>
-            <Select
-              onValueChange={(value) =>
-                reset({
-                  existingLoyalty: value as "Yes" | "No",
-                })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.existingLoyalty && (
-              <p className="text-sm text-red-500">
-                {errors.existingLoyalty.message}
-              </p>
-            )}
-          </div>
-          <Button
-            type="submit"
-            className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
+        {isSubmitted ? (
+          <ConfirmationForm onClose={handleClose} />
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 max-w-lg w-full"
           >
-            Submit
-          </Button>
-        </form>
+            <div className="space-y-2">
+              <Label htmlFor="brandName" className="text-right">
+                Brand Name*
+              </Label>
+              <Input
+                id="brandName"
+                placeholder="Brand Name"
+                {...register("brandName")}
+              />
+              {errors.brandName && (
+                <p className="text-sm text-red-500">
+                  {errors.brandName.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactName" className="text-right">
+                Contact Person’s Name*
+              </Label>
+              <Input
+                id="contactName"
+                placeholder="Contact Name"
+                {...register("contactName")}
+              />
+              {errors.contactName && (
+                <p className="text-sm text-red-500">
+                  {errors.contactName.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactEmail" className="text-right">
+                Contact Person’s E-mail ID*
+              </Label>
+              <Input
+                id="contactEmail"
+                placeholder="Contact Email"
+                {...register("contactEmail")}
+              />
+              {errors.contactEmail && (
+                <p className="text-sm text-red-500">
+                  {errors.contactEmail.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactPhone" className="text-right">
+                Contact Person’s Phone no.
+              </Label>
+              <Input
+                id="contactPhone"
+                placeholder="Contact Phone"
+                {...register("contactPhone")}
+              />
+              {errors.contactPhone && (
+                <p className="text-sm text-red-500">
+                  {errors.contactPhone.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="brandWebsite" className="text-right">
+                Brand Website URL
+              </Label>
+              <Input
+                id="brandWebsite"
+                placeholder="Brand Website"
+                {...register("brandWebsite")}
+              />
+              {errors.brandWebsite && (
+                <p className="text-sm text-red-500">
+                  {errors.brandWebsite.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="existingLoyalty" className="text-right">
+                Do have an existing loyalty solution?*
+              </Label>
+              <Select
+                onValueChange={(value) =>
+                  reset({
+                    existingLoyalty: value as "Yes" | "No",
+                  })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.existingLoyalty && (
+                <p className="text-sm text-red-500">
+                  {errors.existingLoyalty.message}
+                </p>
+              )}
+            </div>
+            <Button
+              // type="submit"
+              onClick={() => setIsSubmitted(true)}
+              className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
+            >
+              Submit
+            </Button>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );
 }
+
+export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
+  <div className="text-center space-y-4">
+    <Realistic autorun={{ speed: 0.001 }} />
+    <PartyPopper className="w-16 h-16 mx-auto text-green-500 animate-bounce" />
+    <h2 className="text-2xl font-bold text-green-600">Thank You!</h2>
+    <p className="text-gray-600">
+      Your message has been successfully sent. We&apos;ll get back to you soon!
+    </p>
+    <Button onClick={onClose} className="w-full">
+      Close
+    </Button>
+  </div>
+);

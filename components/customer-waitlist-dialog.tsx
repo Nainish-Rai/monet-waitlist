@@ -56,21 +56,38 @@ export function CustomerWaitlistDialog() {
   });
 
   const onSubmit = async (data: FormData) => {
-    const { name, contactPhone, contactEmail, fromWhere } = data;
-    console.log({ name, contactPhone, contactEmail, fromWhere });
     try {
-      const response = await fetch("/api/waitlist/customer", {
+      sendEmail(data);
+      // const response = await fetch("/api/waitlist/customer", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data),
+      // });
+
+      // if (response.ok) {
+      //   alert("Thank you for joining our waitlist!");
+
+      //   // setOpen(false);
+      //   reset();
+      // } else {
+      //   alert("An error occurred. Please try again.");
+      // }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
+  const sendEmail = async (data: FormData) => {
+    try {
+      const response = await fetch("/api/email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       if (response.ok) {
-        alert("Thank you for joining our waitlist!");
-        setOpen(false);
-        reset();
-      } else {
-        alert("An error occurred. Please try again.");
+        alert("Email sent successfully");
       }
     } catch (error) {
       console.error("Error:", error);

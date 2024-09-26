@@ -25,7 +25,6 @@ function CustomerCta({}) {
         >
           Crafted for Ultimate Rewards
         </motion.h2>
-
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -51,7 +50,6 @@ function CustomerCta({}) {
             className=" drop-shadow-golden-glow "
           />
         </motion.div>
-
         <div className="w-full mt-6  bg-transparent  sm:w-1/2">
           <CustomerWaitlistDialog />
         </div>
