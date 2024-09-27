@@ -17,7 +17,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         primary:
-          "mt-8 rounded-3xl max-w-36 bg-gradient-to-r from-cta-yellow-1 to-cta-yellow-2 hover:from-cta-yellow-2 hover:to-cta-yellow-1 transition duration-300 font-medium",
+          "mt-8 rounded-3xl  bg-gradient-to-r from-cta-yellow-1 to-cta-yellow-2 hover:from-cta-yellow-2 hover:to-cta-yellow-1 transition duration-300 font-medium",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },

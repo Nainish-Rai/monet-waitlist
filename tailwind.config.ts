@@ -11,7 +11,10 @@ const config: Config = {
     extend: {
       dropShadow: {
         "golden-glow": "5px 5px 200px rgba(198, 154, 53, 1)",
-        "golden-glow-sm": "100px 5px 100px rgba(198, 154, 53, 0.4 )",
+        "golden-glow-hero-mobile": "0px -30px 90px rgba(198, 154, 53, 0.8)",
+        "golden-glow-cta-mobile": "0px -100px 130px rgba(198, 154, 53, 1)",
+        "golden-glow-sm-mobile": "80px -20px 70px rgba(198, 154, 53, 0.5 )",
+        "golden-glow-sm": "80px -20px 100px rgba(198, 154, 53, 0.4 )",
       },
       fontSize: {
         // Neue Montreal
