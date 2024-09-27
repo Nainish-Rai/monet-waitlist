@@ -25,6 +25,8 @@ import { textVariant } from "@/lib/anims";
 import { motion } from "framer-motion";
 import { ArrowUpRightIcon } from "lucide-react";
 import { ConfirmationForm } from "./brand-waitlist-dialog";
+import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
+import { CustomerResponse } from "@/model/api-response/customer-response";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -58,6 +60,8 @@ export function CustomerWaitlistDialog() {
     resolver: zodResolver(formSchema),
   });
 
+  const { trackSignUp } = useGoogleAnalytics();
+
   const onSubmit = async (data: FormData) => {
     try {
       const response = await fetch("/api/waitlist/customer", {
@@ -71,6 +75,10 @@ export function CustomerWaitlistDialog() {
         setIsSubmitted(true);
         // sendEmail(data);
         // setOpen(false);
+        const responseData = await response.json() as CustomerResponse;
+        trackSignUp('WAITLIST_CUSTOMER', responseData.contact.id);
+        alert("Thank you for joining our waitlist!");
+        setOpen(false);
         reset();
       } else {
         alert("An error occurred. Please try again.");
@@ -122,6 +130,10 @@ export function CustomerWaitlistDialog() {
               width={20}
               className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
             />
+            className="mt-8 text-black rounded-3xl"
+            size={"lg"}
+          >
+            Join the waitlist
           </Button>
         </motion.div>
       </DialogTrigger>
@@ -229,6 +241,85 @@ export function CustomerWaitlistDialog() {
             </Button>
           </form>
         )}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 max-w-lg w-full"
+        >
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-right">
+              Name*
+            </Label>
+            <Input id="name" placeholder="Nainish" {...register("name")} />
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name.message}</p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="contactPhone" className="text-right">
+              Phone No*
+            </Label>
+            <Input
+              id="contactPhone"
+              placeholder="Enter phone no."
+              {...register("contactPhone")}
+            />
+            {errors.contactPhone && (
+              <p className="text-sm text-red-500">
+                {errors.contactPhone.message}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="contactEmail" className="text-right">
+              E-mail ID*
+            </Label>
+            <Input
+              id="contactEmail"
+              placeholder="Enter email ID"
+              {...register("contactEmail")}
+            />
+            {errors.contactEmail && (
+              <p className="text-sm text-red-500">
+                {errors.contactEmail.message}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="fromWhere" className="text-right">
+              How did you hear about us?*
+            </Label>
+            <Select
+              onValueChange={(value) =>
+                reset({
+                  fromWhere: value as
+                    | "Social Media"
+                    | "Advertisement"
+                    | "Friend"
+                    | "Other",
+                })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Social Media">Social Media</SelectItem>
+                <SelectItem value="Friend">Friend</SelectItem>
+                <SelectItem value="Advertisement">Advertisement</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.fromWhere && (
+              <p className="text-sm text-red-500">{errors.fromWhere.message}</p>
+            )}
+          </div>
+          <Button
+            type="submit"
+            className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+          >
+            Submit
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   );
