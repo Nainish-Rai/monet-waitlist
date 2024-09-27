@@ -24,6 +24,7 @@ import {
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
+import { BrandResponse } from "@/model/api-response/brand-response";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -58,18 +59,9 @@ export function BrandContactDialog() {
     resolver: zodResolver(formSchema),
   });
 
-  const { trackSignUp, trackConversion } = useGoogleAnalytics();
+  const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
-    const {
-      brandName,
-      contactName,
-      contactEmail,
-      contactPhone,
-      brandWebsite,
-      existingLoyalty,
-    } = data;
-
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -78,11 +70,10 @@ export function BrandContactDialog() {
       });
 
       if (response.ok) {
+        const responseData = await response.json() as BrandResponse;
         // Track sign-up event
-        trackSignUp();
-
-        // Track conversion event
-        trackConversion("brand");
+        trackSignUp('WAITLIST_BRAND', responseData?.contact?.id);
+        
         alert("Brand contact saved successfully!");
         setOpen(false);
         reset();

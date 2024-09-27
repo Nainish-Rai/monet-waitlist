@@ -5,10 +5,12 @@ declare global {
     gtag: (
       type: string,
       action: string,
-      params: { event_category: string; event_label?: string; value?: number }
+      params: { event_category: string; event_label?: string; value?: string }
     ) => void
   }
 }
+
+type EVENT_CATEGORY = 'WAITLIST_BRAND' | 'WAITLIST_CUSTOMER' | 'EMAIL' | 'USER_FEEDBACK' | 'VOUCHER_UTILIZATION';
 
 export const useGoogleAnalytics = () => {
   useEffect(() => {
@@ -19,9 +21,9 @@ export const useGoogleAnalytics = () => {
 
   const trackEvent = (
     action: string,
-    category: string,
+    category: EVENT_CATEGORY,
     label?: string,
-    value?: number
+    value?: string
   ) => {
     if (typeof window.gtag === 'function') {
       window.gtag('event', action, {
@@ -32,24 +34,24 @@ export const useGoogleAnalytics = () => {
     }
   }
 
-  const trackSignUp = () => {
-    trackEvent('sign_up', 'Waitlist', 'Form Submission')
+  const trackSignUp = (category: EVENT_CATEGORY, userId?: string) => {
+    trackEvent('sign_up', category, 'Form Submission', userId)
   }
 
-  const trackConversion = (referralSource: string) => {
-    trackEvent('conversion', 'Waitlist', referralSource)
+  const trackConversion = (category: EVENT_CATEGORY, referralSource: string) => {
+    trackEvent('conversion', category, referralSource)
   }
 
   const trackEngagement = (action: 'open' | 'click', emailType: string) => {
-    trackEvent('engagement', 'Email', `${action}_${emailType}`)
+    trackEvent('engagement', 'EMAIL', `${action}_${emailType}`)
   }
 
   const trackFeedback = (feedback: string) => {
-    trackEvent('feedback', 'User Experience', feedback)
+    trackEvent('feedback', 'USER_FEEDBACK', feedback)
   }
 
   const trackVoucherUtilization = (brand: string) => {
-    trackEvent('voucher_utilization', 'Brand', brand)
+    trackEvent('voucher_utilization', 'VOUCHER_UTILIZATION', brand)
   }
 
   return {
