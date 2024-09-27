@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
+import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -57,6 +58,8 @@ export function BrandContactDialog() {
     resolver: zodResolver(formSchema),
   });
 
+  const { trackSignUp, trackConversion } = useGoogleAnalytics();
+
   const onSubmit = async (data: FormData) => {
     const {
       brandName,
@@ -66,14 +69,7 @@ export function BrandContactDialog() {
       brandWebsite,
       existingLoyalty,
     } = data;
-    console.log({
-      brandName,
-      contactName,
-      contactEmail,
-      contactPhone,
-      brandWebsite,
-      existingLoyalty,
-    });
+
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -82,6 +78,11 @@ export function BrandContactDialog() {
       });
 
       if (response.ok) {
+        // Track sign-up event
+        trackSignUp();
+
+        // Track conversion event
+        trackConversion("brand");
         alert("Brand contact saved successfully!");
         setOpen(false);
         reset();

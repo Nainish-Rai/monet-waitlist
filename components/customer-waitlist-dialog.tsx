@@ -23,6 +23,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { textVariant } from "@/lib/anims";
 import { motion } from "framer-motion";
+import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 
 // Define the schema using zod
 const formSchema = z.object({
@@ -55,9 +56,9 @@ export function CustomerWaitlistDialog() {
     resolver: zodResolver(formSchema),
   });
 
+  const { trackSignUp, trackConversion } = useGoogleAnalytics();
+
   const onSubmit = async (data: FormData) => {
-    const { name, contactPhone, contactEmail, fromWhere } = data;
-    console.log({ name, contactPhone, contactEmail, fromWhere });
     try {
       const response = await fetch("/api/waitlist/customer", {
         method: "POST",
@@ -66,6 +67,8 @@ export function CustomerWaitlistDialog() {
       });
 
       if (response.ok) {
+        trackSignUp();
+        trackConversion('customer')
         alert("Thank you for joining our waitlist!");
         setOpen(false);
         reset();

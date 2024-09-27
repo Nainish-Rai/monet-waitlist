@@ -3,8 +3,11 @@ import localFont from "next/font/local";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const manrope = Manrope({ subsets: ["latin"] });
+
+const GOOGLE_ANALYTICS_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +44,7 @@ export default function RootLayout({
         <Navbar />
         {children}
       </body>
+      <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID!} />
     </html>
   );
 }
