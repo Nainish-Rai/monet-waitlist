@@ -13,7 +13,7 @@ function Hero({}) {
             initial="hidden"
             whileInView="show"
             variants={textVariant(0.1)}
-            className="  text-4xl text-center mt-8 lg:mt-0 lg:text-left lg:text-[60px] leading-tight font-medium max-w-lg"
+            className="  text-4xl text-center mt-8 lg:mt-0 lg:text-left lg:text-[60px] lg:leading-tight font-medium max-w-lg"
           >
             Redefine Loyalty with Monet
           </motion.h1>
@@ -21,7 +21,7 @@ function Hero({}) {
             initial="hidden"
             whileInView="show"
             variants={textVariant(0.2)}
-            className="mt-4 text-gray-100/70 max-w-md"
+            className="mt-4 text-gray-100/70 text-base lg:text-lg max-w-md"
           >
             When have constraints ever worked? Unleash the true potential of
             rewards with Monet and create a loyalty experience like never
@@ -35,7 +35,13 @@ function Hero({}) {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="w-full flex justify-center items-center lg:w-1/2"
         >
-          <Image src="/hero.png" width={500} height={500} alt="hero" />
+          <Image
+            src="/hero.svg"
+            className=""
+            width={2000}
+            height={2000}
+            alt="hero"
+          />
         </motion.div>
       </div>
     </div>

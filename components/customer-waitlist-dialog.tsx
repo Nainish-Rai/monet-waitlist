@@ -23,6 +23,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { textVariant } from "@/lib/anims";
 import { motion } from "framer-motion";
+import { ArrowUpRightIcon } from "lucide-react";
+import { ConfirmationForm } from "./brand-waitlist-dialog";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { CustomerResponse } from "@/model/api-response/customer-response";
 
@@ -48,6 +50,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function CustomerWaitlistDialog() {
   const [open, setOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -68,6 +71,10 @@ export function CustomerWaitlistDialog() {
       });
 
       if (response.ok) {
+        // alert("Thank you for joining our waitlist!");
+        setIsSubmitted(true);
+        // sendEmail(data);
+        // setOpen(false);
         const responseData = await response.json() as CustomerResponse;
         trackSignUp('WAITLIST_CUSTOMER', responseData.contact.id);
         alert("Thank you for joining our waitlist!");
@@ -82,6 +89,28 @@ export function CustomerWaitlistDialog() {
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    setIsSubmitted(false);
+  };
+
+  // const sendEmail = async (data: FormData) => {
+  //   try {
+  //     const response = await fetch("/api/email", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (response.ok) {
+  //       alert("Email sent successfully");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     alert("An error occurred. Please try again.");
+  //   }
+  // };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -92,6 +121,15 @@ export function CustomerWaitlistDialog() {
         >
           <Button
             variant={"primary"}
+            className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
+            size={"lg"}
+          >
+            Join Waitlist
+            <ArrowUpRightIcon
+              height={20}
+              width={20}
+              className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
+            />
             className="mt-8 text-black rounded-3xl"
             size={"lg"}
           >
@@ -117,6 +155,92 @@ export function CustomerWaitlistDialog() {
           </button>
         </DialogHeader>
 
+        {isSubmitted ? (
+          <ConfirmationForm onClose={handleClose} />
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 max-w-lg w-full"
+          >
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-right">
+                Name*
+              </Label>
+              <Input id="name" placeholder="Nainish" {...register("name")} />
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactPhone" className="text-right">
+                Phone No*
+              </Label>
+              <Input
+                id="contactPhone"
+                placeholder="Enter phone no."
+                {...register("contactPhone")}
+              />
+              {errors.contactPhone && (
+                <p className="text-sm text-red-500">
+                  {errors.contactPhone.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactEmail" className="text-right">
+                E-mail ID*
+              </Label>
+              <Input
+                id="contactEmail"
+                placeholder="Enter email ID"
+                {...register("contactEmail")}
+              />
+              {errors.contactEmail && (
+                <p className="text-sm text-red-500">
+                  {errors.contactEmail.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="fromWhere" className="text-right">
+                How did you hear about us?*
+              </Label>
+              <Select
+                onValueChange={(value) =>
+                  reset({
+                    fromWhere: value as
+                      | "Social Media"
+                      | "Advertisement"
+                      | "Friend"
+                      | "Other",
+                  })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Social Media">Social Media</SelectItem>
+                  <SelectItem value="Friend">Friend</SelectItem>
+                  <SelectItem value="Advertisement">Advertisement</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.fromWhere && (
+                <p className="text-sm text-red-500">
+                  {errors.fromWhere.message}
+                </p>
+              )}
+            </div>
+            <Button
+              // type="submit"
+              onClick={() => setIsSubmitted(true)}
+              className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+            >
+              Submit
+            </Button>
+          </form>
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 max-w-lg w-full"
