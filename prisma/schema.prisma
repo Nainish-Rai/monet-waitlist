@@ -1,6 +1,7 @@
 // prisma/schema.prisma
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -9,19 +10,19 @@ datasource db {
 }
 
 model BrandContact {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  brandName    String
-  contactName  String
-  contactEmail String
-  contactPhone String?
-  brandWebsite String?
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  brandName       String
+  contactName     String
+  contactEmail    String
+  contactPhone    String?
+  brandWebsite    String?
   existingLoyalty String
 }
 
 model CustomerContact {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
+  name         String
   contactEmail String
   contactPhone String
-  fromWhere String?
+  fromWhere    String?
 }
