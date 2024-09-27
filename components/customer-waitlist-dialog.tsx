@@ -130,10 +130,7 @@ export function CustomerWaitlistDialog() {
               width={20}
               className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
             />
-            className="mt-8 text-black rounded-3xl"
-            size={"lg"}
-          >
-            Join the waitlist
+
           </Button>
         </motion.div>
       </DialogTrigger>
