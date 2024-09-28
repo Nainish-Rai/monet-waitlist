@@ -28,7 +28,7 @@ import { ConfirmationForm } from "./brand-waitlist-dialog";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { CustomerResponse } from "@/model/api-response/customer-response";
 import { PhoneInput } from "./phone-input";
-import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
+import { parsePhoneNumber } from "react-phone-number-input";
 import { LoadingButton } from "./loading-button";
 import toast from "react-hot-toast";
 
@@ -94,9 +94,8 @@ export function CustomerWaitlistDialog() {
       } else {
         toast.error(responseData.message);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error:", error);
-      alert(error.message);
     }
   };
 
