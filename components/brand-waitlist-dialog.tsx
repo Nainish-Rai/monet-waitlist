@@ -28,23 +28,32 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
+import { parsePhoneNumber } from "react-phone-number-input";
+import { PhoneInput } from "./phone-input";
+import toast from "react-hot-toast";
+import { LoadingButton } from "./loading-button";
 
 // Define the schema using zod
 const formSchema = z.object({
-  brandName: z.string().min(1, "Brand name is required"),
-  contactName: z.string().min(1, "Contact name is required"),
-  contactEmail: z.string().email("Invalid email address"),
+  brandName: z.string().min(1, "Brand name is required").max(30, "Too long"),
+  contactName: z
+    .string()
+    .min(1, "Contact name is required")
+    .max(30, "Too long"),
   contactPhone: z
     .string()
-    .optional()
     .refine(
-      (val) => {
-        if (!val) return true; // Allow empty phone number
-        const regex = /^\+?\d{10,13}$/;
-        return regex.test(val);
+      (phone) => {
+        const phoneNumber = parsePhoneNumber(phone || "");
+        return (
+          phoneNumber?.isValid() && phoneNumber?.nationalNumber.length >= 10
+        );
       },
-      { message: "Invalid phone number" }
-    ),
+      { message: "Invalid phone number or too short" }
+    )
+    .or(z.literal(""))
+    .optional(),
+  contactEmail: z.string().email("Invalid email address"),
   brandWebsite: z.string().optional(),
   existingLoyalty: z.string().min(1, "Existing loyalty is required"),
 });
@@ -58,11 +67,14 @@ export function BrandContactDialog() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  const [contactPhone, setContactPhone] = useState<string>("");
 
   const { trackSignUp } = useGoogleAnalytics();
 
@@ -74,24 +86,19 @@ export function BrandContactDialog() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        // alert("Brand contact saved successfully!");
-        setIsSubmitted(true);
+      const responseData = (await response.json()) as BrandResponse;
 
-        // setOpen(false);
-        const responseData = await response.json() as BrandResponse;
+      if (response.ok) {
+        setIsSubmitted(true);
         // Track sign-up event
-        trackSignUp('WAITLIST_BRAND', responseData?.contact?.id);
-        
-        alert("Brand contact saved successfully!");
-        setOpen(false);
+        trackSignUp("WAITLIST_BRAND", responseData?.contact?.id);
         reset();
       } else {
-        alert("An error occurred. Please try again.");
+        toast.error(responseData.message);
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      alert("An error occurred. Please try again.aa");
     }
   };
 
@@ -131,7 +138,7 @@ export function BrandContactDialog() {
             <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
               Be the first to offer seamless point conversions and engage
               customers like never before! We&apos;ll reach out soon to discuss
-              how Monet can help elevate your brand&apso;s loyalty strategy.
+              how Monet can help elevate your brand&apos;s loyalty strategy.
             </p>
           )}
           <button
@@ -196,12 +203,23 @@ export function BrandContactDialog() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactPhone" className="text-right">
-                Contact Person’s Phone no.
+                Contact Person’s Phone No.
               </Label>
-              <Input
+              {/* <Input
                 id="contactPhone"
-                placeholder="Contact Phone"
+                placeholder="Enter phone no."
                 {...register("contactPhone")}
+              /> */}
+
+              <PhoneInput
+                id="contactPhone"
+                value={contactPhone}
+                onChange={(value) => {
+                  setContactPhone(value);
+                  setValue("contactPhone", value);
+                }}
+                defaultCountry="IN"
+                placeholder="Enter a phone number"
               />
               {errors.contactPhone && (
                 <p className="text-sm text-red-500">
@@ -249,13 +267,20 @@ export function BrandContactDialog() {
                 </p>
               )}
             </div>
-            <Button
-              type="submit"
-              // onClick={() => setIsSubmitted(true)}
-              className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
-            >
-              Submit
-            </Button>
+            {isSubmitted ? (
+              <LoadingButton
+                className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
+                loading
+              />
+            ) : (
+              <Button
+                type="submit"
+                // onClick={() => setIsSubmitted(true)}
+                className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
+              >
+                Submit
+              </Button>
+            )}
           </form>
         )}
       </DialogContent>
@@ -263,7 +288,7 @@ export function BrandContactDialog() {
   );
 }
 
-export const ConfirmationForm = ({}: { onClose: () => void }) => (
+export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
   <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
     <div className="w-full lg:max-w-2xl lg:h-96">
@@ -284,6 +309,8 @@ export const ConfirmationForm = ({}: { onClose: () => void }) => (
       touch soon to schedule your demo!
     </p>
 
-    {/* <Button onClick={onClose}>Close</Button> */}
+    <Button className="mt-4 rounded w-full max-w-24" onClick={onClose}>
+      Close
+    </Button>
   </div>
 );

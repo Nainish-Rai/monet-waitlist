@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Toaster } from "react-hot-toast";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${neueMontreal.variable} ${manrope.className} bg-black   antialiased`}
       >
         <Navbar />
+        <Toaster />
         {children}
       </body>
       <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID!} />

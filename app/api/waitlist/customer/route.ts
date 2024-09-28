@@ -5,6 +5,40 @@ export async function POST(req: Request) {
   try {
     const { name, contactEmail, contactPhone, fromWhere } = await req.json();
 
+    // Check for existing email
+    const existingEmail = await prisma.customerContact.findUnique({
+      where: { contactEmail },
+    });
+
+    if (existingEmail) {
+      console.log("Email already exists");
+      return NextResponse.json(
+        { message: "Email already exists" },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // Check for existing phone number (if provided)
+    if (contactPhone) {
+      const existingPhone = await prisma.customerContact.findUnique({
+        where: { contactPhone },
+      });
+
+      if (existingPhone) {
+        console.log("Phone number already exists");
+        return NextResponse.json(
+          {
+            message: "Phone number already exists",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+    }
+
     // Create a new customer contact in MongoDB using Prisma
     const customerContact = await prisma.customerContact.create({
       data: {

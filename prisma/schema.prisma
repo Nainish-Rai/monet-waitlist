@@ -11,10 +11,10 @@ datasource db {
 
 model BrandContact {
   id              String  @id @default(auto()) @map("_id") @db.ObjectId
-  brandName       String
+  brandName       String @unique
   contactName     String
-  contactEmail    String
-  contactPhone    String?
+  contactEmail    String @unique
+  contactPhone    String? @unique
   brandWebsite    String?
   existingLoyalty String
 }
@@ -22,7 +22,7 @@ model BrandContact {
 model CustomerContact {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  contactEmail String
-  contactPhone String
+  contactEmail String @unique
+  contactPhone String? @unique
   fromWhere    String?
 }

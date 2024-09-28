@@ -27,17 +27,28 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { ConfirmationForm } from "./brand-waitlist-dialog";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { CustomerResponse } from "@/model/api-response/customer-response";
+import { PhoneInput } from "./phone-input";
+import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
+import { LoadingButton } from "./loading-button";
+import toast from "react-hot-toast";
 
 // Define the schema using zod
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  contactPhone: z.string().refine(
-    (val) => {
-      const regex = /^\+?\d{10,13}$/;
-      return regex.test(val);
-    },
-    { message: "Invalid phone number" }
-  ),
+  name: z.string().min(1, "Name is required").max(30, "Name is too long"),
+  contactPhone: z
+    .string()
+    .refine(
+      (phone) => {
+        const phoneNumber = parsePhoneNumber(phone || "");
+        return (
+          phoneNumber?.isValid() && phoneNumber?.nationalNumber.length >= 10
+        );
+      },
+      { message: "Invalid phone number or too short" }
+    )
+    .or(z.literal(""))
+    .optional(),
+
   contactEmail: z.string().email("Invalid email address"),
   fromWhere: z
     .enum(["Social Media", "Advertisement", "Friend", "Other"], {
@@ -54,11 +65,14 @@ export function CustomerWaitlistDialog() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  const [contactPhone, setContactPhone] = useState<string>("");
 
   const { trackSignUp } = useGoogleAnalytics();
 
@@ -69,23 +83,20 @@ export function CustomerWaitlistDialog() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
+      console.log(response, "response");
+      const responseData = (await response.json()) as CustomerResponse;
+      console.log(responseData, "responseData");
       if (response.ok) {
-        // alert("Thank you for joining our waitlist!");
         setIsSubmitted(true);
         // sendEmail(data);
-        // setOpen(false);
-        const responseData = await response.json() as CustomerResponse;
-        trackSignUp('WAITLIST_CUSTOMER', responseData.contact.id);
-        alert("Thank you for joining our waitlist!");
-        setOpen(false);
+        trackSignUp("WAITLIST_CUSTOMER", responseData.customerContact.id);
         reset();
       } else {
-        alert("An error occurred. Please try again.");
+        toast.error(responseData.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      alert(error.message);
     }
   };
 
@@ -130,20 +141,23 @@ export function CustomerWaitlistDialog() {
               width={20}
               className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
             />
-
           </Button>
         </motion.div>
       </DialogTrigger>
       <DialogContent className="w-full max-w-6xl gap-12 backdrop-blur bg-black/40 flex flex-col lg:flex-row p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
-          <DialogTitle className="text-xl lg:text-5xl font-normal leading-tight ">
-            Be the First to Unlock Ultimate Rewards
-          </DialogTitle>
-          <p className=" text-xs lg:text-base pt-2 leading-normal  text-gray-400 mb-4">
-            Join our exclusive waitlist and get early access to seamless point
-            conversions, exciting perks, and more. Don&apos;t miss out on the
-            next wave of loyalty innovation!
-          </p>
+          {!isSubmitted && (
+            <>
+              <DialogTitle className="text-xl lg:text-5xl font-normal leading-tight ">
+                Be the First to Unlock Ultimate Rewards
+              </DialogTitle>
+              <p className=" text-xs lg:text-base pt-2 leading-normal  text-gray-400 mb-4">
+                Join our exclusive waitlist and get early access to seamless
+                point conversions, exciting perks, and more. Don&apos;t miss out
+                on the next wave of loyalty innovation!
+              </p>{" "}
+            </>
+          )}
           <button
             onClick={() => setOpen(false)}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
@@ -168,21 +182,7 @@ export function CustomerWaitlistDialog() {
                 <p className="text-sm text-red-500">{errors.name.message}</p>
               )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="contactPhone" className="text-right">
-                Phone No*
-              </Label>
-              <Input
-                id="contactPhone"
-                placeholder="Enter phone no."
-                {...register("contactPhone")}
-              />
-              {errors.contactPhone && (
-                <p className="text-sm text-red-500">
-                  {errors.contactPhone.message}
-                </p>
-              )}
-            </div>
+
             <div className="space-y-2">
               <Label htmlFor="contactEmail" className="text-right">
                 E-mail ID*
@@ -195,6 +195,32 @@ export function CustomerWaitlistDialog() {
               {errors.contactEmail && (
                 <p className="text-sm text-red-500">
                   {errors.contactEmail.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="contactPhone" className="text-right">
+                Phone No.
+              </Label>
+              {/* <Input
+                id="contactPhone"
+                placeholder="Enter phone no."
+                {...register("contactPhone")}
+              /> */}
+
+              <PhoneInput
+                id="contactPhone"
+                value={contactPhone}
+                onChange={(value) => {
+                  setContactPhone(value);
+                  setValue("contactPhone", value);
+                }}
+                defaultCountry="IN"
+                placeholder="Enter a phone number"
+              />
+              {errors.contactPhone && (
+                <p className="text-sm text-red-500">
+                  {errors.contactPhone.message}
                 </p>
               )}
             </div>
@@ -229,16 +255,23 @@ export function CustomerWaitlistDialog() {
                 </p>
               )}
             </div>
-            <Button
-              // type="submit"
-              onClick={() => setIsSubmitted(true)}
-              className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
-            >
-              Submit
-            </Button>
+            {isSubmitted ? (
+              <LoadingButton
+                loading
+                disabled
+                className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+              />
+            ) : (
+              <Button
+                type="submit"
+                // onClick={() => setIsSubmitted(true)}
+                className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
+              >
+                Submit
+              </Button>
+            )}
           </form>
         )}
-
       </DialogContent>
     </Dialog>
   );

@@ -12,6 +12,32 @@ export async function POST(req: Request) {
       existingLoyalty,
     } = await req.json();
 
+    // checl existing email
+    const existingEmail = await prisma.brandContact.findUnique({
+      where: { contactEmail },
+    });
+
+    if (existingEmail) {
+      console.log("Email already exists");
+      return NextResponse.json(
+        { message: "Email already exists" },
+        { status: 400 }
+      );
+    }
+
+    // Check existing brand name using contactEmail as the unique field
+    const existingBrandName = await prisma.brandContact.findUnique({
+      where: { brandName },
+    });
+
+    if (existingBrandName) {
+      console.log("Brand name already exists");
+      return NextResponse.json(
+        { message: "Brand name already exists" },
+        { status: 400 }
+      );
+    }
+
     // Create a new contact in MongoDB using Prisma
     const contact = await prisma.brandContact.create({
       data: {
