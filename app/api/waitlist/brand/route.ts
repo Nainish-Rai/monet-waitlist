@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; // Import Prisma client
+import { sendBrandEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -49,6 +50,8 @@ export async function POST(req: Request) {
         existingLoyalty,
       },
     });
+
+    sendBrandEmail(contactName, brandName, contactEmail);
 
     return NextResponse.json({
       message: "Contact saved successfully",
