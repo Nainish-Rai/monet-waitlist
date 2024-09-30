@@ -41,7 +41,7 @@ export function SolutionsSection() {
           transition={{ duration: 0.8 }}
           className="self-center text-3xl lg:text-5xl font-medium text-white sm:text-4xl"
         >
-          Our Solutions
+          What we offer
         </motion.h2>
         <div className="mt-6 lg:mt-12 w-full sm:mt-10 sm:max-w-full">
           <motion.div
