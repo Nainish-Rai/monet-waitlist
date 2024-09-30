@@ -2,6 +2,7 @@
 const nextConfig = {
   env: {
     DATABASE_URL: process.env.DATABASE_URL ?? "",
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY ?? ""
   },
   images: {
     remotePatterns: [
