@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -28,7 +28,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
-import { parsePhoneNumber } from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { PhoneInput } from "./phone-input";
 import toast from "react-hot-toast";
 import { LoadingButton } from "./loading-button";
@@ -42,16 +42,9 @@ const formSchema = z.object({
     .max(30, "Too long"),
   contactPhone: z
     .string()
-    .refine(
-      (phone) => {
-        const phoneNumber = parsePhoneNumber(phone || "");
-        return (
-          phoneNumber?.isValid() && phoneNumber?.nationalNumber.length >= 10
-        );
-      },
-      { message: "Invalid phone number or too short" }
-    )
-    .or(z.literal(""))
+    .refine(isValidPhoneNumber, {
+      message: "Invalid phone number",
+    })
     .optional(),
   contactEmail: z.string().email("Invalid email address"),
   brandWebsite: z.string().optional(),
@@ -75,10 +68,12 @@ export function BrandContactDialog() {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
+  console.log(contactPhone, "contactPhone");
 
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
+    console.log(data);
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -106,6 +101,10 @@ export function BrandContactDialog() {
     setOpen(false);
     setIsSubmitted(false);
   };
+
+  useEffect(() => {
+    setValue("contactPhone", contactPhone);
+  }, [contactPhone, setValue]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -216,7 +215,6 @@ export function BrandContactDialog() {
                 value={contactPhone}
                 onChange={(value) => {
                   setContactPhone(value);
-                  setValue("contactPhone", value);
                 }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"
