@@ -1,6 +1,7 @@
 import * as sgMail from "@sendgrid/mail";
 
 export async function sendEmail(name: string, email: string) {
+    // console.log(name)
     sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
     // const msg = {
@@ -41,7 +42,7 @@ export async function sendEmail(name: string, email: string) {
         };
 
         await sgMail.send(msg);
-        console.log("Email sent");
+        console.log("Customer: Email sent");
     } catch (err) {
         console.log("Failed to send welcome.");
     }
@@ -89,7 +90,7 @@ export async function sendBrandEmail(name: string, bName: string, email: string)
         };
 
         await sgMail.send(msg);
-        console.log("Email sent");
+        console.log("Brand: Email sent");
     } catch (err) {
         console.log("Failed to send welcome.");
     }

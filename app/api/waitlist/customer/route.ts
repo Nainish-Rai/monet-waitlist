@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       },
     });
 
-    sendEmail(name, contactEmail);
+    await sendEmail(name, contactEmail);
 
     return NextResponse.json({
       message: "Customer contact saved successfully",

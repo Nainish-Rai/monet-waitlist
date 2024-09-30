@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       },
     });
 
-    sendBrandEmail(contactName, brandName, contactEmail);
+    await sendBrandEmail(contactName, brandName, contactEmail);
 
     return NextResponse.json({
       message: "Contact saved successfully",
