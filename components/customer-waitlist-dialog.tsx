@@ -84,7 +84,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
       console.log(responseData, "responseData");
       if (response.ok) {
         setIsSubmitted(true);
-        sendEmail(data);
+
         trackSignUp("WAITLIST_CUSTOMER", responseData.customerContact.id);
         reset();
       } else {
@@ -103,23 +103,6 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
   useEffect(() => {
     setValue("contactPhone", contactPhone);
   }, [contactPhone, setValue]);
-
-  const sendEmail = async (data: FormData) => {
-    try {
-      const response = await fetch("/api/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      // if (response.ok) {
-      //   alert("Email sent successfully");
-      // }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
