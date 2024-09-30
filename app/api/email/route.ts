@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   try {
     const msg = {
       "from": {
-        "email": "communications@monet.work"
+        "email": "abhay.mishra@monet.work"
       },
       "personalizations": [
         {

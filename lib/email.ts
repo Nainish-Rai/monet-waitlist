@@ -21,7 +21,7 @@ export async function sendEmail(name: string, email: string) {
     try {
         const msg = {
             "from": {
-                "email": "communications@monet.work"
+                "email": "abhay.mishra@monet.work"
             },
             "personalizations": [
                 {
@@ -68,7 +68,7 @@ export async function sendBrandEmail(name: string, bName: string, email: string)
     try {
         const msg = {
             "from": {
-                "email": "communications@monet.work"
+                "email": "abhay.mishra@monet.work"
             },
             "personalizations": [
                 {
