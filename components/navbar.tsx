@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-function Navbar({ }) {
+function Navbar({}) {
   const activePathname = usePathname();
 
   const isBrand = activePathname === "/";
@@ -26,14 +26,14 @@ function Navbar({ }) {
               onClick={() => router.push("/customer")}
               className=" bg-transparent  text-xs lg:text-sm hover:bg-transparent text-white rounded-3xl"
             >
-              I&apos;m a customer
+              I&apos;m a Customer
             </Button>
           ) : (
             <Button
               onClick={() => router.push("/customer")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m a customer
+              I&apos;m a Customer
             </Button>
           )}
           {!isBrand ? (
@@ -41,14 +41,14 @@ function Navbar({ }) {
               onClick={() => router.push("/")}
               className=" bg-transparent  text-xs lg:text-sm hover:bg-transparent text-white rounded-3xl"
             >
-              I&apos;m a brand
+              I&apos;m a Brand
             </Button>
           ) : (
             <Button
               onClick={() => router.push("/")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m a brand
+              I&apos;m a Brand
             </Button>
           )}
         </div>

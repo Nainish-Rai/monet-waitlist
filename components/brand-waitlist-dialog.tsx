@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -28,39 +28,35 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
-import { parsePhoneNumber } from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { PhoneInput } from "./phone-input";
 import toast from "react-hot-toast";
 import { LoadingButton } from "./loading-button";
 
 // Define the schema using zod
 const formSchema = z.object({
-  brandName: z.string().min(1, "Brand name is required").max(30, "Too long"),
+  brandName: z
+    .string()
+    .min(1, "Brand name is required")
+    .max(30, "Brand Name can be up to 30 characters only"),
   contactName: z
     .string()
     .min(1, "Contact name is required")
-    .max(30, "Too long"),
+    .max(30, "Contact Person's Name can be up to 30 characters only"),
   contactPhone: z
     .string()
-    .refine(
-      (phone) => {
-        const phoneNumber = parsePhoneNumber(phone || "");
-        return (
-          phoneNumber?.isValid() && phoneNumber?.nationalNumber.length >= 10
-        );
-      },
-      { message: "Invalid phone number or too short" }
-    )
-    .or(z.literal(""))
+    .refine(isValidPhoneNumber, {
+      message: "Invalid phone number",
+    })
     .optional(),
   contactEmail: z.string().email("Invalid email address"),
   brandWebsite: z.string().optional(),
-  existingLoyalty: z.string().min(1, "Existing loyalty is required"),
+  existingLoyalty: z.string().min(1, "Existing loyalty is required").optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function BrandContactDialog() {
+export function BrandContactDialog({ text }: { text?: string }) {
   const [open, setOpen] = useState(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -75,10 +71,12 @@ export function BrandContactDialog() {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
+  console.log(contactPhone, "contactPhone");
 
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
+    console.log(data);
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -107,6 +105,10 @@ export function BrandContactDialog() {
     setIsSubmitted(false);
   };
 
+  useEffect(() => {
+    setValue("contactPhone", contactPhone);
+  }, [contactPhone, setValue]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -120,7 +122,7 @@ export function BrandContactDialog() {
             className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
             size={"lg"}
           >
-            Join Waitlist
+            {text ? text : "Join Waitlist"}
             <ArrowUpRightIcon
               height={20}
               width={20}
@@ -150,7 +152,7 @@ export function BrandContactDialog() {
         </DialogHeader>
 
         {isSubmitted ? (
-          <ConfirmationForm onClose={handleClose} />
+          <ConfirmationForm isBrand onClose={handleClose} />
         ) : (
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -216,7 +218,6 @@ export function BrandContactDialog() {
                 value={contactPhone}
                 onChange={(value) => {
                   setContactPhone(value);
-                  setValue("contactPhone", value);
                 }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"
@@ -244,7 +245,7 @@ export function BrandContactDialog() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="existingLoyalty" className="text-right">
-                Do have an existing loyalty solution?*
+                Do have an existing loyalty solution?
               </Label>
               <Select
                 onValueChange={(value) =>
@@ -288,7 +289,13 @@ export function BrandContactDialog() {
   );
 }
 
-export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
+export const ConfirmationForm = ({
+  onClose,
+  isBrand,
+}: {
+  onClose: () => void;
+  isBrand?: boolean;
+}) => (
   <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
     <div className="w-full lg:max-w-2xl lg:h-96">
@@ -303,11 +310,21 @@ export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
     <h1 className="text-3xl lg:text-5xl z-10 mt-4 lg:-mt-40  font-medium ">
       Congratulations!
     </h1>
-    <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-      Thanks for joining our waitlist! Get ready to transform customer
-      engagement with seamless point integration and analytics. We&apos;ll be in
-      touch soon to schedule your demo!
-    </p>
+    {!isBrand ? (
+      <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
+        You're In - Welcome to Monet's Inner Circle! <br /> You've joined an
+        exclusive group of early adopters who are ready to redefine how loyalty
+        points work & unlock seamless conversions across brands. 🚀 We're
+        excited to have you with us! Keep an eye on your inbox - exciting
+        updates and offers are coming your way soon! 🌟
+      </p>
+    ) : (
+      <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
+        We're thrilled you've joined us to transform customer engagement 🚀 Our
+        team will reach out soon to schedule your demo - let's elevate your
+        loyalty strategy together! 🌟
+      </p>
+    )}
 
     <Button className="mt-4 rounded w-full max-w-24" onClick={onClose}>
       Close

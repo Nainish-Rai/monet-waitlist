@@ -12,22 +12,16 @@ interface Solution {
 
 const solutions: Solution[] = [
   {
-    icon: "/s3.svg",
-    title: "Analytics",
-    description:
-      "Be part of an exclusive unveiling of our groundbreaking loyalty rewards platform.",
-  },
-  {
     icon: "/s1.svg",
-    title: "AI Recommendations",
+    title: "Enhance Customer Experience",
     description:
-      "Leverage AI-driven suggestions to enhance customer engagement. Boost retention by offering personalized rewards.",
+      "Boost retention and engagement with focused analytics and tailored AI driven recommendations",
   },
   {
     icon: "/s2.svg",
-    title: "Cashbacks",
+    title: "Power Loyalty-led Growth",
     description:
-      "Earn a percentage back when users convert and redeem points at partner brands. Drive revenue with seamless cross-brand transactions.",
+      "Scale customer acquisition with Monet’s cross-brand loyalty platform. Unlock new opportunities to acquire customers with seamless points conversions.",
   },
 ];
 
