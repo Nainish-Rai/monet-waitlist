@@ -34,7 +34,10 @@ import toast from "react-hot-toast";
 
 // Define the schema using zod
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required").max(30, "Name is too long"),
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(30, "Name can be up to 30 characters only"),
   contactPhone: z
     .string()
     .refine(isValidPhoneNumber, {
@@ -52,7 +55,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function CustomerWaitlistDialog() {
+export function CustomerWaitlistDialog({ text }: { text?: string }) {
   const [open, setOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const {
@@ -131,7 +134,7 @@ export function CustomerWaitlistDialog() {
             className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
             size={"lg"}
           >
-            Join Waitlist
+            {text ? text : "Join Waitlist"}
             <ArrowUpRightIcon
               height={20}
               width={20}
@@ -222,7 +225,7 @@ export function CustomerWaitlistDialog() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="fromWhere" className="text-right">
-                How did you hear about us?*
+                How did you hear about us?
               </Label>
               <Select
                 onValueChange={(value) =>

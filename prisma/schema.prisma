@@ -16,7 +16,7 @@ model BrandContact {
   contactEmail    String @unique
   contactPhone    String? @unique
   brandWebsite    String?
-  existingLoyalty String
+  existingLoyalty String?
 }
 
 model CustomerContact {

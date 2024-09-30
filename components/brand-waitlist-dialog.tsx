@@ -35,11 +35,14 @@ import { LoadingButton } from "./loading-button";
 
 // Define the schema using zod
 const formSchema = z.object({
-  brandName: z.string().min(1, "Brand name is required").max(30, "Too long"),
+  brandName: z
+    .string()
+    .min(1, "Brand name is required")
+    .max(30, "Brand Name can be up to 30 characters only"),
   contactName: z
     .string()
     .min(1, "Contact name is required")
-    .max(30, "Too long"),
+    .max(30, "Contact Person's Name can be up to 30 characters only"),
   contactPhone: z
     .string()
     .refine(isValidPhoneNumber, {
@@ -48,12 +51,12 @@ const formSchema = z.object({
     .optional(),
   contactEmail: z.string().email("Invalid email address"),
   brandWebsite: z.string().optional(),
-  existingLoyalty: z.string().min(1, "Existing loyalty is required"),
+  existingLoyalty: z.string().min(1, "Existing loyalty is required").optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export function BrandContactDialog() {
+export function BrandContactDialog({ text }: { text?: string }) {
   const [open, setOpen] = useState(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -119,7 +122,7 @@ export function BrandContactDialog() {
             className="mt-8 w-36 hover:w-40 px-6 group transition-all  duration-200 text-base text-black rounded-3xl"
             size={"lg"}
           >
-            Join Waitlist
+            {text ? text : "Join Waitlist"}
             <ArrowUpRightIcon
               height={20}
               width={20}
@@ -149,7 +152,7 @@ export function BrandContactDialog() {
         </DialogHeader>
 
         {isSubmitted ? (
-          <ConfirmationForm onClose={handleClose} />
+          <ConfirmationForm isBrand onClose={handleClose} />
         ) : (
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -242,7 +245,7 @@ export function BrandContactDialog() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="existingLoyalty" className="text-right">
-                Do have an existing loyalty solution?*
+                Do have an existing loyalty solution?
               </Label>
               <Select
                 onValueChange={(value) =>
@@ -309,18 +312,17 @@ export const ConfirmationForm = ({
     </h1>
     {!isBrand ? (
       <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-        You're In - Welcome to Monet's Inner Circle! You've joined an exclusive
-        group of early adopters who are ready to redefine how loyalty points
-        work & unlock seamless conversions across brands. 🚀 <br />
-        We're excited to have you with us! Keep an eye on your inbox - exciting
+        You're In - Welcome to Monet's Inner Circle! <br /> You've joined an
+        exclusive group of early adopters who are ready to redefine how loyalty
+        points work & unlock seamless conversions across brands. 🚀 We're
+        excited to have you with us! Keep an eye on your inbox - exciting
         updates and offers are coming your way soon! 🌟
       </p>
     ) : (
       <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-        We're thrilled you've joined us to transform customer engagement 🚀{" "}
-        <br />
-        Our team will reach out soon to schedule your demo - let's elevate your
-        loyalty strategy together!
+        We're thrilled you've joined us to transform customer engagement 🚀 Our
+        team will reach out soon to schedule your demo - let's elevate your
+        loyalty strategy together! 🌟
       </p>
     )}
 

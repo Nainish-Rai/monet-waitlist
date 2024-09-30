@@ -15,7 +15,7 @@ function CustomerHero({}) {
             whileInView="show"
             variants={textVariant(0.5)}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="  text-4xl text-center mt-8 lg:mt-0  lg:text-6xl  lg:leading-tight max-w-2xl"
+            className="  text-4xl text-center mt-8 lg:mt-0 lg:pl-4  lg:text-6xl  lg:leading-tight max-w-2xl"
           >
             Spend Points Like <br /> Never Before
           </motion.h1>
@@ -25,15 +25,15 @@ function CustomerHero({}) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full lg:w-[72%]  hidden lg:block  -mt-16 lg:-mt-40"
+          className="w-full lg:w-[75%]  hidden lg:block  -mt-16 lg:-mt-40"
         >
           {" "}
           <Image
-            src="/consumerHeroGradient.png"
-            width={1200}
-            height={1200}
+            src="/herocard.png"
+            width={1500}
+            height={1500}
             alt="hero"
-            className="w-full "
+            className="w-full pr-2"
           />
         </motion.div>
         <motion.div

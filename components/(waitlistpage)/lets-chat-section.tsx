@@ -46,7 +46,7 @@ function LetsChatSection({}) {
         </motion.div>
 
         <div className="w-full mt-12  bg-transparent  sm:w-1/2">
-          <BrandContactDialog />
+          <BrandContactDialog text="Book a Demo" />
         </div>
         <div className="w-full mt-24  flex  gap-2 justify-center sm:w-1/2">
           {socialLinks.map((link, index) => (
