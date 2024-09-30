@@ -3,7 +3,7 @@ import { FeatureCard } from "./feature-card";
 const features = [
   {
     imageSrc: "/f1.svg",
-    title: "Maximise lifetime value",
+    title: "Maximise Lifetime Value",
     description:
       "Enhance visibility, drive more purchases, and see your Customer Lifetime Value (CLV) soar.",
   },
@@ -15,7 +15,7 @@ const features = [
   },
   {
     imageSrc: "/f3.svg",
-    title: "Feel the love!",
+    title: "Feel the Love!",
     description:
       "Ignite engagement and activate your loyalty program, cultivating a passionate community around your brand.",
   },
