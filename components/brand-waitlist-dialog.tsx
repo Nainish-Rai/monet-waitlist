@@ -286,7 +286,13 @@ export function BrandContactDialog() {
   );
 }
 
-export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
+export const ConfirmationForm = ({
+  onClose,
+  isBrand,
+}: {
+  onClose: () => void;
+  isBrand?: boolean;
+}) => (
   <div className="text-center flex flex-col pb-6  items-center w-full">
     <Realistic autorun={{ speed: 0.001 }} />
     <div className="w-full lg:max-w-2xl lg:h-96">
@@ -301,11 +307,22 @@ export const ConfirmationForm = ({ onClose }: { onClose: () => void }) => (
     <h1 className="text-3xl lg:text-5xl z-10 mt-4 lg:-mt-40  font-medium ">
       Congratulations!
     </h1>
-    <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-      Thanks for joining our waitlist! Get ready to transform customer
-      engagement with seamless point integration and analytics. We&apos;ll be in
-      touch soon to schedule your demo!
-    </p>
+    {!isBrand ? (
+      <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
+        You're In - Welcome to Monet's Inner Circle! You've joined an exclusive
+        group of early adopters who are ready to redefine how loyalty points
+        work & unlock seamless conversions across brands. 🚀 <br />
+        We're excited to have you with us! Keep an eye on your inbox - exciting
+        updates and offers are coming your way soon! 🌟
+      </p>
+    ) : (
+      <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
+        We're thrilled you've joined us to transform customer engagement 🚀{" "}
+        <br />
+        Our team will reach out soon to schedule your demo - let's elevate your
+        loyalty strategy together!
+      </p>
+    )}
 
     <Button className="mt-4 rounded w-full max-w-24" onClick={onClose}>
       Close
