@@ -9,13 +9,13 @@ import { socialLinks } from "../(customerWaitlist)/customer-cta";
 
 function LetsChatSection({}) {
   return (
-    <section className="w-full mb-0 lg:mt-24  bg-black lg:pb-8 pb-8 px-4 lg:px-0 ">
-      <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full items-center text-center">
+    <section className="w-full mb-0 lg:mt-12  bg-black lg:pb-8 pb-8 px-4 lg:px-0 ">
+      <div className="flex flex-col max-w-7xl mt-16 lg:mt-32 mx-auto w-full items-center text-center">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.7 }}
-          className="self-center text-5xl font-medium text-white sm:text-6xl"
+          className="self-center text-4xl font-medium text-white sm:text-6xl"
         >
           Let&apos;s Chat
         </motion.h2>
@@ -24,7 +24,7 @@ function LetsChatSection({}) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-4 text-gray-100/70 text-base lg:text-lg  max-w-lg"
+          className="mt-4 text-gray-100/70 text-sm lg:text-lg  max-w-lg"
         >
           Struggling with loyalty program engagement? Let’s explore how Monet
           can solve your pain points and transform your loyalty strategy.

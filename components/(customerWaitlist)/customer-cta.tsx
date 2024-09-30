@@ -25,7 +25,7 @@ export const socialLinks = [
 function CustomerCta({}) {
   return (
     <section className="w-full  bg-black pb-6 px-4 lg:px-0 ">
-      <div className="flex flex-col max-w-7xl mt-32 mx-auto w-full items-center text-center">
+      <div className="flex flex-col max-w-7xl mt-16 mx-auto w-full items-center text-center">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

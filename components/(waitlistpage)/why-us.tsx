@@ -7,7 +7,7 @@ import { slideIn } from "@/lib/anims";
 
 function WhyUs({}) {
   return (
-    <div className="w-full overflow-hidden bg-gradient-to-br from-[#D6AF503D]/15 from-0% via-black to-[#D6AF503D]/15 pt-24  px-4 lg:px-0  mx-auto lg:h-screen">
+    <div className="w-full overflow-hidden bg-gradient-to-br from-[#D6AF503D]/15 from-0% via-black to-[#D6AF503D]/15 pt-12  px-4 lg:px-0  mx-auto lg:h-screen">
       <div className="w-full max-w-7xl flex justify-center gap-8 flex-col mx-auto  ">
         <motion.h1
           initial={{ opacity: 0 }}

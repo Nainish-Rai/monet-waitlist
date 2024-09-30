@@ -6,7 +6,7 @@ import React from "react";
 
 function RedeemSection({}) {
   return (
-    <div className="w-full  pt-24 pb-28 lg:pb-0  px-4 lg:px-0 overflow-hidden bg-black mx-auto lg:h-screen">
+    <div className="w-full  py-24 lg:pb-0  px-4 lg:px-0 overflow-hidden bg-black mx-auto lg:h-screen">
       <div className="w-full max-w-7xl flex justify-center gap-8 flex-col mx-auto  ">
         <div className="w-full lg:mt-16 gap-8 flex flex-col lg:flex-row justify-center">
           <div className="w-full lg:w-1/2 flex flex-col lg:pl-8  justify-center ">
