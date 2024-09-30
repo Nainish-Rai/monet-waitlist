@@ -112,9 +112,9 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        alert("Email sent successfully");
-      }
+      // if (response.ok) {
+      //   alert("Email sent successfully");
+      // }
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
