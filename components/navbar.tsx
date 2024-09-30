@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-function Navbar({}) {
+function Navbar({ }) {
   const activePathname = usePathname();
 
   const isBrand = activePathname === "/";
@@ -33,7 +33,7 @@ function Navbar({}) {
               onClick={() => router.push("/customer")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m an customer
+              I&apos;m a customer
             </Button>
           )}
           {!isBrand ? (
@@ -48,7 +48,7 @@ function Navbar({}) {
               onClick={() => router.push("/")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m an brand
+              I&apos;m a brand
             </Button>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; // Import Prisma client
+import { sendEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -48,6 +49,8 @@ export async function POST(req: Request) {
         fromWhere,
       },
     });
+
+    await sendEmail(name, contactEmail);
 
     return NextResponse.json({
       message: "Customer contact saved successfully",

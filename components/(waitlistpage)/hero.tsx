@@ -4,7 +4,7 @@ import React from "react";
 import { BrandContactDialog } from "../brand-waitlist-dialog";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
-function Hero({}) {
+function Hero({ }) {
   return (
     <div className="flex mx-auto flex-col text-center lg:text-left px-4 lg:px-0 justify-center bg-gradient-to-tr from-[#D6AF503D]/15 from-0% via-black to-black  lg:flex-row w-full  mt-24 lg:mt-0 lg:h-screen ">
       <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row">
@@ -23,9 +23,7 @@ function Hero({}) {
             variants={textVariant(0.2)}
             className="mt-4 text-gray-100/70 text-base lg:text-lg max-w-md"
           >
-            When have constraints ever worked? Unleash the true potential of
-            rewards with Monet and create a loyalty experience like never
-            before.
+            Break Free from Restrictive Loyalty Programs — Empower Your Customers with Unlimited Choices.
           </motion.p>
           <BrandContactDialog />
         </div>
