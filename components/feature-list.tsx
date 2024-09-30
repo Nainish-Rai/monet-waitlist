@@ -11,7 +11,7 @@ const features = [
     imageSrc: "/f2.svg",
     title: "Turn Points into Profit",
     description:
-      "Earn a 1.5% cashback on every transaction made using your loyalty points, creating real value for your brand.",
+      "Earn cashback on every transaction made using your loyalty points, creating real value for your brand.",
   },
   {
     imageSrc: "/f3.svg",

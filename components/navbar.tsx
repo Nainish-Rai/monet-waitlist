@@ -33,7 +33,7 @@ function Navbar({ }) {
               onClick={() => router.push("/customer")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
-              I&apos;m an customer
+              I&apos;m a customer
             </Button>
           )}
           {!isBrand ? (
