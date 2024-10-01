@@ -77,7 +77,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
-  const [countryCode, setCountryCode] = useState<string>("");
+  // const [countryCode, setCountryCode] = useState<string>("");
 
   const { trackSignUp } = useGoogleAnalytics();
 
@@ -250,7 +250,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
                   setValue("contactPhone", value);
                 }}
                 onCountryChange={(value) => {
-                  setCountryCode(value ?? "");
+                  // setCountryCode(value ?? "");
                   setValue("contactCode", value);
                 }}
                 defaultCountry="IN"
