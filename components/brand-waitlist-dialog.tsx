@@ -28,7 +28,11 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
-import { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from "react-phone-number-input";
+import {
+  formatPhoneNumber,
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 import { PhoneInput } from "./phone-input";
 import toast from "react-hot-toast";
 import { LoadingButton } from "./loading-button";
@@ -61,6 +65,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
   const [open, setOpen] = useState(false);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -72,17 +77,32 @@ export function BrandContactDialog({ text }: { text?: string }) {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<string>("");
 
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
-    const { brandName, contactEmail, brandWebsite, contactPhone: phoneNumberIntl, existingLoyalty, contactName } = data;
-    let payload: Partial<FormData> = { brandName, contactEmail, brandWebsite, existingLoyalty, contactName };
+    const {
+      brandName,
+      contactEmail,
+      brandWebsite,
+      contactPhone: phoneNumberIntl,
+      existingLoyalty,
+      contactName,
+    } = data;
+    let payload: Partial<FormData> = {
+      brandName,
+      contactEmail,
+      brandWebsite,
+      existingLoyalty,
+      contactName,
+    };
     if (phoneNumberIntl) {
       const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
       const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
       payload = { ...payload, contactCode, contactPhone };
     }
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -94,11 +114,14 @@ export function BrandContactDialog({ text }: { text?: string }) {
 
       if (response.ok) {
         setIsSubmitted(true);
+        setIsSubmitting(false);
         // Track sign-up event
         trackSignUp("WAITLIST_BRAND", responseData?.contact?.id);
+
         reset();
       } else {
         toast.error(responseData.message);
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -226,6 +249,10 @@ export function BrandContactDialog({ text }: { text?: string }) {
                   setContactPhone(value);
                   setValue("contactPhone", value);
                 }}
+                onCountryChange={(value) => {
+                  setCountryCode(value ?? "");
+                  setValue("contactCode", value);
+                }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"
               />
@@ -275,11 +302,13 @@ export function BrandContactDialog({ text }: { text?: string }) {
                 </p>
               )}
             </div>
-            {isSubmitted ? (
+            {isSubmitting ? (
               <LoadingButton
                 className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
                 loading
-              />
+              >
+                Submit
+              </LoadingButton>
             ) : (
               <Button
                 type="submit"
@@ -319,8 +348,7 @@ export const ConfirmationForm = ({
     </h1>
     {!isBrand ? (
       <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-        We're
-        excited to have you with us! Keep an eye on your inbox - exciting
+        We're excited to have you with us! Keep an eye on your inbox - exciting
         updates and offers are coming your way soon! 🌟
       </p>
     ) : (

@@ -28,7 +28,11 @@ import { ConfirmationForm } from "./brand-waitlist-dialog";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { CustomerResponse } from "@/model/api-response/customer-response";
 import { PhoneInput } from "./phone-input";
-import { formatPhoneNumberIntl, formatPhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
+import {
+  formatPhoneNumberIntl,
+  formatPhoneNumber,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 import { LoadingButton } from "./loading-button";
 import toast from "react-hot-toast";
 
@@ -58,13 +62,14 @@ type FormData = z.infer<typeof formSchema>;
 export function CustomerWaitlistDialog({ text }: { text?: string }) {
   const [open, setOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
     reset,
-    watch
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
@@ -73,13 +78,19 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
-    const { name, contactEmail, fromWhere, contactPhone: phoneNumberIntl } = data;
+    const {
+      name,
+      contactEmail,
+      fromWhere,
+      contactPhone: phoneNumberIntl,
+    } = data;
     let payload: Partial<FormData> = { name, contactEmail, fromWhere };
     if (phoneNumberIntl) {
       const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
       const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
       payload = { ...payload, contactCode, contactPhone };
     }
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/waitlist/customer", {
         method: "POST",
@@ -89,11 +100,13 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
       const responseData = (await response.json()) as CustomerResponse;
       if (response.ok) {
         setIsSubmitted(true);
+        setIsSubmitting(false);
 
         trackSignUp("WAITLIST_CUSTOMER", responseData.customerContact.id);
         reset();
       } else {
         toast.error(responseData.message);
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -204,6 +217,9 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
                   setContactPhone(value);
                   setValue("contactPhone", value);
                 }}
+                onCountryChange={(value) => {
+                  setValue("contactCode", value);
+                }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"
               />
@@ -244,12 +260,14 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
                 </p>
               )}
             </div>
-            {isSubmitted ? (
+            {isSubmitting ? (
               <LoadingButton
                 loading
                 disabled
                 className="w-32  bg-[#FFEE98] font-semibold  hover:bg-yellow-400 rounded-full  text-black"
-              />
+              >
+                Submit
+              </LoadingButton>
             ) : (
               <Button
                 type="submit"
