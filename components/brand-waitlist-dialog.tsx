@@ -28,7 +28,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
-import { isValidPhoneNumber } from "react-phone-number-input";
+import { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from "react-phone-number-input";
 import { PhoneInput } from "./phone-input";
 import toast from "react-hot-toast";
 import { LoadingButton } from "./loading-button";
@@ -49,6 +49,7 @@ const formSchema = z.object({
       message: "Invalid phone number",
     })
     .optional(),
+  contactCode: z.string().optional(),
   contactEmail: z.string().email("Invalid email address"),
   brandWebsite: z.string().optional(),
   existingLoyalty: z.string().min(1, "Existing loyalty is required").optional(),
@@ -71,17 +72,22 @@ export function BrandContactDialog({ text }: { text?: string }) {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
-  console.log(contactPhone, "contactPhone");
 
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
+    const { brandName, contactEmail, brandWebsite, contactPhone: phoneNumberIntl, existingLoyalty, contactName } = data;
+    let payload: Partial<FormData> = { brandName, contactEmail, brandWebsite, existingLoyalty, contactName };
+    if (phoneNumberIntl) {
+      const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
+      payload = { ...payload, contactCode, contactPhone };
+    }
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const responseData = (await response.json()) as BrandResponse;

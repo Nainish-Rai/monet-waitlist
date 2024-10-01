@@ -28,7 +28,7 @@ import { ConfirmationForm } from "./brand-waitlist-dialog";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { CustomerResponse } from "@/model/api-response/customer-response";
 import { PhoneInput } from "./phone-input";
-import { isValidPhoneNumber } from "react-phone-number-input";
+import { formatPhoneNumberIntl, formatPhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
 import { LoadingButton } from "./loading-button";
 import toast from "react-hot-toast";
 
@@ -44,7 +44,7 @@ const formSchema = z.object({
       message: "Invalid phone number",
     })
     .optional(),
-
+  contactCode: z.string().optional(),
   contactEmail: z.string().email("Invalid email address"),
   fromWhere: z
     .enum(["Social Media", "Advertisement", "Friends", "Other"], {
@@ -64,24 +64,29 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
     setValue,
     formState: { errors },
     reset,
+    watch
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
-  console.log(contactPhone, "contactPhone");
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
+    const { name, contactEmail, fromWhere, contactPhone: phoneNumberIntl } = data;
+    let payload: Partial<FormData> = { name, contactEmail, fromWhere };
+    if (phoneNumberIntl) {
+      const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
+      payload = { ...payload, contactCode, contactPhone };
+    }
     try {
       const response = await fetch("/api/waitlist/customer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
-      console.log(response, "response");
       const responseData = (await response.json()) as CustomerResponse;
-      console.log(responseData, "responseData");
       if (response.ok) {
         setIsSubmitted(true);
 
@@ -100,9 +105,11 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
     setIsSubmitted(false);
   };
 
+  const phoneNumberWatcher = watch("contactPhone");
+
   useEffect(() => {
     setValue("contactPhone", contactPhone);
-  }, [contactPhone, setValue]);
+  }, [phoneNumberWatcher]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
