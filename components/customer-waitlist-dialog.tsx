@@ -44,7 +44,7 @@ const formSchema = z.object({
     .max(30, "Name can be up to 30 characters only"),
   contactPhone: z
     .string()
-    .refine(isValidPhoneNumber, {
+    .refine((val) => val === "" || isValidPhoneNumber(val), {
       message: "Invalid phone number",
     })
     .optional(),
@@ -56,7 +56,6 @@ const formSchema = z.object({
     })
     .optional(),
 });
-
 type FormData = z.infer<typeof formSchema>;
 
 export function CustomerWaitlistDialog({ text }: { text?: string }) {
@@ -90,6 +89,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
       const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
       payload = { ...payload, contactCode, contactPhone };
     }
+    console.log(payload, "payload");
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/waitlist/customer", {
