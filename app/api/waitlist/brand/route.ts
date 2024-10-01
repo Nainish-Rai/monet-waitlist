@@ -8,6 +8,7 @@ export async function POST(req: Request) {
       brandName,
       contactName,
       contactEmail,
+      contactCode,
       contactPhone,
       brandWebsite,
       existingLoyalty,
@@ -36,6 +37,7 @@ export async function POST(req: Request) {
         contactPhone,
         brandWebsite,
         existingLoyalty,
+        contactCode
       },
     });
 

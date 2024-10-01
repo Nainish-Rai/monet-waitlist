@@ -4,7 +4,7 @@ import { sendEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
-    const { name, contactEmail, contactPhone, fromWhere } = await req.json();
+    const { name, contactEmail, contactPhone, fromWhere, contactCode } = await req.json();
 
     // Check for existing email
     const existingEmail = await prisma.customerContact.findUnique({
@@ -46,6 +46,7 @@ export async function POST(req: Request) {
         name,
         contactEmail,
         contactPhone,
+        contactCode,
         fromWhere,
       },
     });
