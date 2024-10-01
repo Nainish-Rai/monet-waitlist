@@ -312,9 +312,7 @@ export const ConfirmationForm = ({
     </h1>
     {!isBrand ? (
       <p className="text-sm lg:text-base  opacity-70 w-full max-w-md mt-3">
-        You're In - Welcome to Monet's Inner Circle! <br /> You've joined an
-        exclusive group of early adopters who are ready to redefine how loyalty
-        points work & unlock seamless conversions across brands. 🚀 We're
+        We're
         excited to have you with us! Keep an eye on your inbox - exciting
         updates and offers are coming your way soon! 🌟
       </p>
