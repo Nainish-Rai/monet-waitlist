@@ -218,6 +218,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
                 value={contactPhone}
                 onChange={(value) => {
                   setContactPhone(value);
+                  setValue("contactPhone", value);
                 }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"

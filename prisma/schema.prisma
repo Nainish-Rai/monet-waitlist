@@ -10,19 +10,25 @@ datasource db {
 }
 
 model BrandContact {
-  id              String  @id @default(auto()) @map("_id") @db.ObjectId
-  brandName       String @unique
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  brandName       String
   contactName     String
-  contactEmail    String @unique
-  contactPhone    String? @unique
+  contactEmail    String   @unique
+  contactCode     String?  @default("+91")
+  contactPhone    String?  @unique
   brandWebsite    String?
   existingLoyalty String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
 }
 
 model CustomerContact {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  contactEmail String @unique
-  contactPhone String? @unique
+  contactEmail String   @unique
+  contactCode  String?  @default("+91")
+  contactPhone String?  @unique
   fromWhere    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
 }

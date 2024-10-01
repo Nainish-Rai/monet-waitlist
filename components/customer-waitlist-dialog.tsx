@@ -47,7 +47,7 @@ const formSchema = z.object({
 
   contactEmail: z.string().email("Invalid email address"),
   fromWhere: z
-    .enum(["Social Media", "Advertisement", "Friend", "Other"], {
+    .enum(["Social Media", "Advertisement", "Friends", "Other"], {
       errorMap: () => ({ message: "Please select a source" }),
     })
     .optional(),
@@ -216,7 +216,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
                     fromWhere: value as
                       | "Social Media"
                       | "Advertisement"
-                      | "Friend"
+                      | "Friends"
                       | "Other",
                   })
                 }
@@ -226,7 +226,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Social Media">Social Media</SelectItem>
-                  <SelectItem value="Friend">Friend</SelectItem>
+                  <SelectItem value="Friends">Friends</SelectItem>
                   <SelectItem value="Advertisement">Advertisement</SelectItem>
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
