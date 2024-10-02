@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; // Import Prisma client
 import { sendBrandEmail } from "@/lib/email";
-import { BrandContact } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
