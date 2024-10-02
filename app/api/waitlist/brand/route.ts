@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
     // Check for existing phone number (if provided)
     if (contactPhone && contactPhone !== "") {
-      const existingPhone = await prisma.brandContact.findUnique({
+      const existingPhone = await prisma.brandContact.findFirst({
         where: { contactPhone },
       });
 

@@ -15,7 +15,7 @@ model BrandContact {
   contactName     String
   contactEmail    String   @unique
   contactCode     String?  @default("+91")
-  contactPhone    String?  @unique
+  contactPhone    String?
   brandWebsite    String?
   existingLoyalty String?
   createdAt       DateTime @default(now())
@@ -27,7 +27,7 @@ model CustomerContact {
   name         String
   contactEmail String   @unique
   contactCode  String?  @default("+91")
-  contactPhone String?  @unique
+  contactPhone String?
   fromWhere    String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
