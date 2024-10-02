@@ -4,6 +4,7 @@ import React from "react";
 import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
+import { ChevronDown, ChevronsDownIcon } from "lucide-react";
 
 function CustomerHero({}) {
   return (
@@ -60,6 +61,9 @@ function CustomerHero({}) {
           use your points with Monet!
         </motion.p>
         <CustomerWaitlistDialog />
+        <div className="mt-8 absolute bottom-5 lg:hidden">
+          <ChevronsDownIcon className="w-8   h-8 text-white opacity-20 aspect-auto animate-pulse " />
+        </div>
       </div>
     </div>
   );

@@ -84,7 +84,8 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
     } = data;
     let payload: Partial<FormData> = { name, contactEmail, fromWhere };
     if (phoneNumberIntl) {
-      const [contactCode, ...phoneNumberParts] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const [contactCode, ...phoneNumberParts] =
+        formatPhoneNumberIntl(phoneNumberIntl).split(" ");
       const contactPhone = phoneNumberParts.join("").replace(/[()-]/g, "");
       payload = { ...payload, contactCode, contactPhone };
     }
@@ -177,7 +178,11 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
               <Label htmlFor="name" className="text-right">
                 Name*
               </Label>
-              <Input id="name" placeholder="Nainish" {...register("name")} />
+              <Input
+                id="name"
+                placeholder="Enter your name"
+                {...register("name")}
+              />
               {errors.name && (
                 <p className="text-sm text-red-500">{errors.name.message}</p>
               )}

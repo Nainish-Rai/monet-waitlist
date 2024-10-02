@@ -8,7 +8,7 @@ import Link from "next/link";
 function Navbar({}) {
   const activePathname = usePathname();
 
-  const isBrand = activePathname === "/brand";
+  const isBrand = activePathname === "/brands";
   const isCustomer = activePathname === "/";
   const router = useRouter();
 
@@ -20,7 +20,7 @@ function Navbar({}) {
             <MonetWorkLogo className="w-16 lg:w-32 h-8" />
           </Link>
         </div>
-        <div className="border p-2  bg-black/20 backdrop-blur rounded-full">
+        <div className="border p-2 transition-all  bg-black/20 backdrop-blur rounded-full">
           {!isCustomer ? (
             <Button
               onClick={() => router.push("/")}
@@ -30,7 +30,7 @@ function Navbar({}) {
             </Button>
           ) : (
             <Button
-              onClick={() => router.push("/customer")}
+              onClick={() => router.push("/")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
               I&apos;m a Customer
@@ -38,14 +38,14 @@ function Navbar({}) {
           )}
           {!isBrand ? (
             <Button
-              onClick={() => router.push("/brand")}
+              onClick={() => router.push("/brands")}
               className=" bg-transparent  text-xs lg:text-sm hover:bg-transparent text-white rounded-3xl"
             >
               I&apos;m a Brand
             </Button>
           ) : (
             <Button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/brands")}
               className=" rounded-3xl text-xs lg:text-sm "
             >
               I&apos;m a Brand
