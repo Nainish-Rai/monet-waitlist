@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BrandContactDialog } from "../brand-waitlist-dialog";
+import BrandContactDialog from "../brand-waitlist-dialog";
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
 import { socialLinks } from "../(customerWaitlist)/customer-cta";

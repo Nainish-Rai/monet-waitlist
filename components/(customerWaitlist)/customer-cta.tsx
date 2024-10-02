@@ -2,9 +2,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
+
 import { motion } from "framer-motion";
 import { textVariant } from "@/lib/anims";
+import { CustomerWaitlistDialog } from "../customer-waitlist-dialog";
 
 export const socialLinks = [
   {

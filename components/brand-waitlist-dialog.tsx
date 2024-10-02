@@ -36,7 +36,6 @@ import { PhoneInput } from "./phone-input";
 import toast from "react-hot-toast";
 import { LoadingButton } from "./loading-button";
 
-// Define the schema using zod
 const formSchema = z.object({
   brandName: z
     .string()
@@ -60,9 +59,8 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export function BrandContactDialog({ text }: { text?: string }) {
+const BrandWaitlistDialog = ({ text }: { text?: string }) => {
   const [open, setOpen] = useState(false);
-
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
@@ -76,7 +74,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
-  // const [countryCode, setCountryCode] = useState<string>("");
+  const [contactCode, setContactCode] = useState<string>("");
 
   const { trackSignUp } = useGoogleAnalytics();
 
@@ -85,24 +83,29 @@ export function BrandContactDialog({ text }: { text?: string }) {
       brandName,
       contactEmail,
       brandWebsite,
-      contactPhone: phoneNumberIntl,
       existingLoyalty,
       contactName,
     } = data;
-    let payload: Partial<FormData> = {
+
+    const payload: Partial<FormData> = {
       brandName,
       contactEmail,
       brandWebsite,
       existingLoyalty,
       contactName,
+      contactPhone: contactPhone,
+      contactCode: contactCode,
     };
-    if (phoneNumberIntl) {
-      const [contactCode, ...phoneNumberParts] =
-        formatPhoneNumberIntl(phoneNumberIntl).split(" ");
-      const contactPhone = phoneNumberParts.join("").replace(/[()-]/g, "");
-      payload = { ...payload, contactCode, contactPhone };
+
+    if (contactPhone) {
+      const formattedPhone = formatPhoneNumberIntl(contactPhone);
+      const [code, ...phoneParts] = formattedPhone.split(" ");
+      payload.contactCode = code;
+      payload.contactPhone = phoneParts.join("").replace(/[()-]/g, "");
     }
+
     setIsSubmitting(true);
+
     try {
       const response = await fetch("/api/waitlist/brand", {
         method: "POST",
@@ -115,9 +118,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
       if (response.ok) {
         setIsSubmitted(true);
         setIsSubmitting(false);
-        // Track sign-up event
         trackSignUp("WAITLIST_BRAND", responseData?.contact?.id);
-
         reset();
       } else {
         toast.error(responseData.message);
@@ -125,7 +126,8 @@ export function BrandContactDialog({ text }: { text?: string }) {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.aa");
+      toast.error("An error occurred. Please try again.");
+      setIsSubmitting(false);
     }
   };
 
@@ -136,7 +138,8 @@ export function BrandContactDialog({ text }: { text?: string }) {
 
   useEffect(() => {
     setValue("contactPhone", contactPhone);
-  }, [contactPhone, setValue]);
+    setValue("contactCode", contactCode);
+  }, [contactPhone, contactCode, setValue]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -155,15 +158,15 @@ export function BrandContactDialog({ text }: { text?: string }) {
             <ArrowUpRightIcon
               height={20}
               width={20}
-              className=" invisible  duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
+              className="invisible duration-200 transition-all group-hover:translate-x-1 group-hover:scale-110 group-hover:visible"
             />
           </Button>
         </motion.div>
       </DialogTrigger>
       <DialogContent className="w-full overflow-scroll lg:overflow-hidden max-h-screen max-w-6xl gap-12 backdrop-blur bg-black/40  flex lg:flex-row flex-col p-12 sm:rounded-3xl">
         <DialogHeader className="flex flex-col max-w-lg">
-          <DialogTitle className=" text-2xl lg:text-5xl font-light leading-tight ">
-            {isSubmitted ? "" : " Ready to Transform Loyalty Engagement?"}
+          <DialogTitle className="text-2xl lg:text-5xl font-light leading-tight">
+            {isSubmitted ? "" : "Ready to Transform Loyalty Engagement?"}
           </DialogTitle>
           {!isSubmitted && (
             <p className="text-sm lg:text-base pt-2 leading-normal text-gray-500 mb-4">
@@ -204,7 +207,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactName" className="text-right">
-                Contact Person’s Name*
+                Contact Person's Name*
               </Label>
               <Input
                 id="contactName"
@@ -219,7 +222,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactEmail" className="text-right">
-                Contact Person’s E-mail ID*
+                Contact Person's E-mail ID*
               </Label>
               <Input
                 id="contactEmail"
@@ -234,24 +237,18 @@ export function BrandContactDialog({ text }: { text?: string }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="contactPhone" className="text-right">
-                Contact Person’s Phone No.
+                Contact Person's Phone No.
               </Label>
-              {/* <Input
-                id="contactPhone"
-                placeholder="Enter phone no."
-                {...register("contactPhone")}
-              /> */}
-
               <PhoneInput
                 id="contactPhone"
                 value={contactPhone}
                 onChange={(value) => {
-                  setContactPhone(value);
-                  setValue("contactPhone", value);
+                  setContactPhone(value || "");
+                  setValue("contactPhone", value || "");
                 }}
                 onCountryChange={(value) => {
-                  // setCountryCode(value ?? "");
-                  setValue("contactCode", value);
+                  setContactCode(value || "");
+                  setValue("contactCode", value || "");
                 }}
                 defaultCountry="IN"
                 placeholder="Enter a phone number"
@@ -283,9 +280,7 @@ export function BrandContactDialog({ text }: { text?: string }) {
               </Label>
               <Select
                 onValueChange={(value) =>
-                  reset({
-                    existingLoyalty: value as "Yes" | "No",
-                  })
+                  setValue("existingLoyalty", value as "Yes" | "No")
                 }
               >
                 <SelectTrigger>
@@ -312,7 +307,6 @@ export function BrandContactDialog({ text }: { text?: string }) {
             ) : (
               <Button
                 type="submit"
-                // onClick={() => setIsSubmitted(true)}
                 className="w-32 bg-[#FFEE98] font-semibold hover:bg-yellow-400 rounded-full text-black"
               >
                 Submit
@@ -339,7 +333,7 @@ export const ConfirmationForm = ({
         src={"congrats.svg"}
         alt="brand logo"
         width={800}
-        className="w-full    animate-pulse  "
+        className="w-full animate-pulse"
         height={800}
       />
     </div>
@@ -364,3 +358,6 @@ export const ConfirmationForm = ({
     </Button>
   </div>
 );
+
+
+export default BrandWaitlistDialog;
