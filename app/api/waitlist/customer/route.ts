@@ -11,6 +11,8 @@ export async function POST(req: Request) {
       where: { contactEmail },
     });
 
+    console.log("contactPhone: ", contactPhone);
+
     if (existingEmail) {
       console.log("Email already exists");
       return NextResponse.json(
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
     }
 
     // Check for existing phone number (if provided)
-    if (contactPhone) {
+    if (contactPhone && contactPhone !== "") {
       const existingPhone = await prisma.customerContact.findUnique({
         where: { contactPhone },
       });
@@ -45,7 +47,7 @@ export async function POST(req: Request) {
       data: {
         name,
         contactEmail,
-        contactPhone,
+        contactPhone: contactPhone && contactPhone !== "" ? contactPhone : null,
         contactCode,
         fromWhere,
       },

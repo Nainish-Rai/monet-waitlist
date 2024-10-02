@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; // Import Prisma client
 import { sendBrandEmail } from "@/lib/email";
+import { BrandContact } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -28,13 +29,32 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check for existing phone number (if provided)
+    if (contactPhone && contactPhone !== "") {
+      const existingPhone = await prisma.brandContact.findUnique({
+        where: { contactPhone },
+      });
+
+      if (existingPhone) {
+        console.log("Phone number already exists");
+        return NextResponse.json(
+          {
+            message: "Phone number already exists",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+    }
+
     // Create a new contact in MongoDB using Prisma
     const contact = await prisma.brandContact.create({
       data: {
         brandName,
         contactName,
         contactEmail,
-        contactPhone,
+        contactPhone: contactPhone && contactPhone !== "" ? contactPhone : null,
         brandWebsite,
         existingLoyalty,
         contactCode
