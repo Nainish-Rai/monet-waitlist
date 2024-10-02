@@ -29,7 +29,6 @@ import Image from "next/image";
 import { useGoogleAnalytics } from "@/hooks/useGoogleAnalytics";
 import { BrandResponse } from "@/model/api-response/brand-response";
 import {
-  formatPhoneNumber,
   formatPhoneNumberIntl,
   isValidPhoneNumber,
 } from "react-phone-number-input";
@@ -98,7 +97,8 @@ export function BrandContactDialog({ text }: { text?: string }) {
       contactName,
     };
     if (phoneNumberIntl) {
-      const [contactCode, ...phoneNumberParts] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const [contactCode, ...phoneNumberParts] =
+        formatPhoneNumberIntl(phoneNumberIntl).split(" ");
       const contactPhone = phoneNumberParts.join("").replace(/[()-]/g, "");
       payload = { ...payload, contactCode, contactPhone };
     }
