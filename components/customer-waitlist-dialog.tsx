@@ -85,11 +85,10 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
     } = data;
     let payload: Partial<FormData> = { name, contactEmail, fromWhere };
     if (phoneNumberIntl) {
-      const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
-      const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
+      const [contactCode, ...phoneNumberParts] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const contactPhone = phoneNumberParts.join("").replace(/[()-]/g, "");
       payload = { ...payload, contactCode, contactPhone };
     }
-    console.log(payload, "payload");
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/waitlist/customer", {
