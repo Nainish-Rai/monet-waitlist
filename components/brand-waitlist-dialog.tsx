@@ -98,8 +98,8 @@ export function BrandContactDialog({ text }: { text?: string }) {
       contactName,
     };
     if (phoneNumberIntl) {
-      const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
-      const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
+      const [contactCode, ...phoneNumberParts] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
+      const contactPhone = phoneNumberParts.join("").replace(/[()-]/g, "");
       payload = { ...payload, contactCode, contactPhone };
     }
     setIsSubmitting(true);

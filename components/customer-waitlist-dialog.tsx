@@ -74,6 +74,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
   });
 
   const [contactPhone, setContactPhone] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
   const { trackSignUp } = useGoogleAnalytics();
 
   const onSubmit = async (data: FormData) => {
@@ -85,6 +86,7 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
     } = data;
     let payload: Partial<FormData> = { name, contactEmail, fromWhere };
     if (phoneNumberIntl) {
+      phoneNumberIntl.replace(" ", "");
       const [contactCode] = formatPhoneNumberIntl(phoneNumberIntl).split(" ");
       const contactPhone = formatPhoneNumber(phoneNumberIntl).replace(" ", "");
       payload = { ...payload, contactCode, contactPhone };
@@ -214,10 +216,14 @@ export function CustomerWaitlistDialog({ text }: { text?: string }) {
                 id="contactPhone"
                 value={contactPhone}
                 onChange={(value) => {
+                  console.log(value, "value");
                   setContactPhone(value);
                   setValue("contactPhone", value);
                 }}
                 onCountryChange={(value) => {
+                  console.log(value, "value country");
+                  if(!value) return;
+                  setCountry(value);
                   setValue("contactCode", value);
                 }}
                 defaultCountry="IN"
