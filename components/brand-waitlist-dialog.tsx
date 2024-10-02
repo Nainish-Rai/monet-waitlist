@@ -47,7 +47,7 @@ const formSchema = z.object({
     .max(30, "Contact Person's Name can be up to 30 characters only"),
   contactPhone: z
     .string()
-    .refine(isValidPhoneNumber, {
+    .refine((val) => val === "" || isValidPhoneNumber(val), {
       message: "Invalid phone number",
     })
     .optional(),
