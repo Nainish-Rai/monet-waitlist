@@ -30,7 +30,6 @@ import { CustomerResponse } from "@/model/api-response/customer-response";
 import { PhoneInput } from "./phone-input";
 import {
   formatPhoneNumberIntl,
-  formatPhoneNumber,
   isValidPhoneNumber,
 } from "react-phone-number-input";
 import { LoadingButton } from "./loading-button";
